@@ -61,7 +61,3 @@ const mapStateToDispatch = dispatch => ({
 })
 
 export default connect(null, mapStateToDispatch)(RootContainer)
-
-RootContainer.propTypes = {
-  startup: PropTypes.func.isRequired
-}

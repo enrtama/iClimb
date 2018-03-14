@@ -1,18 +1,18 @@
 
 /**
- * 
+ *
  */
 
 import { createStore, applyMiddleware, compose } from 'redux'
-import createLogger from 'redux-logger'
+import { createLogger } from 'redux-logger'
 import createSagaMiddleware from 'redux-saga'
+import devToolsEnhancer from 'remote-redux-devtools'
 
 // creates the store
 export default (rootReducer, rootSaga) => {
   /* ------------- Redux Configuration ------------- */
 
   const middleware = []
-  const enhancers = []
 
   /* ------------- Saga Middleware ------------- */
 
@@ -21,21 +21,16 @@ export default (rootReducer, rootSaga) => {
 
   /* ------------- Logger Middleware ------------- */
 
-  if (__DEV__) {
-    // create the logger
-    const loggerMiddleware = createLogger({
-      level: 'info',
-      collapsed: true
-    })
-    middleware.push(loggerMiddleware)
-  }
+  // create the logger
+  const loggerMiddleware = createLogger({
+    level: 'info',
+    collapsed: true
+  })
+  middleware.push(loggerMiddleware)
 
   /* ------------- Assemble Middleware ------------- */
 
-  enhancers.push(applyMiddleware(...middleware))
-
-
-  const store = createStore(rootReducer, compose(...enhancers))
+  const store = createStore(rootReducer, compose(applyMiddleware(loggerMiddleware, sagaMiddleware), devToolsEnhancer()));
 
   // kick off root saga
   sagaMiddleware.run(rootSaga)
