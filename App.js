@@ -1,49 +1,35 @@
-import Expo from 'expo';
-import React from 'react';
-import { AppRegistry } from "react-native";
-import { StyleSheet, View, Text } from 'react-native';
-import { Spinner } from 'native-base';
 
-// Screens
-import HomeScreen from './src/screens/Home/index.android.js'
+/**
+ *
+ */
 
-import Navigation from './src/components/Navigation/index.android.js'
+import React, { Component } from 'react'
+import { Provider } from 'react-redux'
+import './src/i18n' // keep before RootContainer
+import RootContainer from './src/containers/RootContainer'
+import createStore from './src/redux'
 
-class App extends React.Component {
-  state = {fontLoaded: false}
-  /**
-   *
-   */
-  async componentDidMount() {
-    await Expo.Font.loadAsync({
-      'Roboto': require('native-base/Fonts/Roboto.ttf'),
-      'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
-    });
-    this.setState({ fontLoaded: true });
-  }
+// create our store
+const store = createStore()
 
-  render() {
-    if (!this.state.fontLoaded) {
-      return <View style={styles.spinner}><Spinner /></View>
-    }
+/**
+ * Provides an entry point into our application.  Both index.ios.js and index.android.js
+ * call this component first.
+ *
+ * We create our Redux store here, put it into a provider and then bring in our
+ * RootContainer.
+ *
+ * We separate like this to play nice with React Native's hot reloading.
+ */
+class App extends Component {
+
+  render () {
     return (
-      <Navigation />
+      <Provider store={store}>
+        <RootContainer />
+      </Provider>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  spinner: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})
 
 export default App

@@ -1,106 +1,54 @@
-import React, { Component } from 'react'
-import { SafeAreaView, TabNavigator, NavigationScreenProp, StackNavigator } from 'react-navigation';
-import { StyleSheet, Platform, ScrollView, View, Button, Text } from 'react-native';
-import { Footer, FooterTab, Right, Title } from 'native-base';
+
+/**
+ * 
+ */
+
+import React from 'react';
+import { StackNavigator, DrawerNavigator } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-// Drawer Navigator
-import DrawerNavigation from '../Drawer/index.android.js'
+// Tab navigation
+import MenuTabs from '../../routes/tabs.android'
 
 // Screens
-import HomeScreen from '../../screens/Home/index.android.js'
-import ChatScreen from '../../screens/Chat/index.android.js'
+import LoginScreen from '../../screens/Login/index.android'
 
-const MyHomeScreen = ({ navigation }) => (
-  <HomeScreen banner={'Home'} navigation={navigation} />
+const MyLoginScreen = ({ navigation }) => (
+  <LoginScreen banner={'Login'} navigation={navigation} />
 )
 
-const MyChatScreen = ({ navigation }) => (
-  <ChatScreen banner={'Chat'} navigation={navigation} />
-)
+MyLoginScreen.navigationOptions = {
+  drawerLabel: 'Login',
+  title: 'Login',
+  drawerIcon: ({ tintColor }) => (
+    <Ionicons
+      name={'ios-contact'}
+      size={24}
+      style={{ color: tintColor }}
+    />
+  )
+}
 
-const MainTab = StackNavigator({
-  Home: {
-    screen: MyHomeScreen,
-    path: '/',
-    navigationOptions: ({navigation}) => ({
-      title: 'Welcome',
-    })
-  },
-  DrawerStack: {
-    screen: DrawerNavigation
-  },
-}, {
-  headerMode: 'float',
-  navigationOptions: ({navigation}) => ({
-    headerLeft: <Text onPress={() => navigation.navigate('DrawerOpen')}><Ionicons
-                name={'ios-menu'}
-                size={26}
-                style={{color:'black'}}/></Text>
-  })
-})
-
-const ChatTab = StackNavigator({
-  Chat: {
-    screen: MyChatScreen,
-    path: '/',
+const LoginStack = StackNavigator({
+  Login: {
+    screen: MyLoginScreen,
+    path: '/login',
     navigationOptions: {
-      title: 'Chats'
+      title: 'Login'
     }
   }
 })
 
-const SimpleTabs = TabNavigator(
+const Drawer = DrawerNavigator(
   {
-    Home: {
-      screen: MainTab,
-      path: '',
-      navigationOptions: {
-        tabBarLabel: 'Home',
-        tabBarIcon: ({ tintColor, focused }) => (
-          <Ionicons
-            name={focused ? 'ios-home' : 'ios-home-outline'}
-            size={26}
-            style={{ color: tintColor }}
-          />
-        )
-      }
-    },
-    Chat: {
-      screen: ChatTab,
-      path: 'chat',
-      navigationOptions: {
-        tabBarLabel: 'Chats',
-        tabBarIcon: ({ tintColor, focused }) => (
-          <Ionicons
-            name={focused ? 'ios-people' : 'ios-people-outline'}
-            size={26}
-            style={{ color: tintColor }}
-          />
-        )
-      }
-    }
+    Home: { screen: MenuTabs },
+    Login: { screen: LoginStack }
   },
   {
-    lazy: true,
-    removeClippedSubviews: true,
-    tabBarPosition: 'bottom',
-    tabBarOptions: {
-      showIcon: true,
-      showLabel: false,
-      activeTintColor: Platform.OS === 'ios' ? '#e91e63' : '#fff'
+    contentOptions: {
+      activeTintColor: '#e91e63',
     }
   }
 )
 
-type NavigationProps = {
-  navigation: NavigationScreenProp<*>,
-}
-
-class Navigation extends React.Component<NavigationProps> {
-  render() {
-    return <SimpleTabs navigation={this.props.navigation} />;
-  }
-}
-
-export default Navigation;
+export default Drawer;

@@ -20,12 +20,21 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^6.3.1",
+    "ex-react-native-i18n": "^0.0.3",
     "expo": "^25.0.0",
     "native-base": "^2.3.9",
     "react": "16.2.0",
     "react-native": "0.52.0",
     "react-native-drawer": "^2.5.0",
+    "react-native-easy-grid": "^0.1.17",
+    "react-native-training-chat-server": "^2.0.0",
     "react-native-vector-icons": "^4.5.0",
-    "react-navigation": "^1.5.0"
+    "react-navigation": "^1.5.0",
+    "react-redux": "^5.0.7",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-saga": "^0.16.0",
+    "reduxsauce": "^0.7.0",
+    "seamless-immutable": "^7.1.3"
   }
 }
