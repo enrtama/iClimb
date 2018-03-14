@@ -5,9 +5,11 @@ I18n.fallbacks = true;
 
 I18n.translations = {
   en: {
+    id: 'en',
     greeting: 'Hi!'
   },
   fr: {
+    id: 'fr',
     greeting: 'Bonjour!'
   }
 }

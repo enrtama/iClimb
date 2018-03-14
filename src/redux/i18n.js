@@ -8,7 +8,7 @@ const {Types, Creators} = createActions({
   changeLanguage: ['language']
 })
 
-export const SettingsTypes = Types
+export const i18nTypes = Types
 export default Creators
 
 /* ------------- Initial State ------------- */
