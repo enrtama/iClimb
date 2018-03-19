@@ -3,11 +3,11 @@ import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Platform, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-// Screens
-import HomeScreen from '../screens/Home/index.android'
-import ChatScreen from '../screens/Chat/index.android'
-import FavoritesScreen from '../screens/Favorites/index.android'
-import PlacesScreen from '../screens/Places/index.android'
+// Containers
+import HomeScreen from '../containers/Home/index.android'
+import ChatScreen from '../containers/Chat/index.android'
+import FavoritesScreen from '../containers/Favorites/index.android'
+import PlacesScreen from '../containers/Places/index.android'
 
 const MyHomeScreen = ({ navigation }) => (
   <HomeScreen banner={'Home'} navigation={navigation} />

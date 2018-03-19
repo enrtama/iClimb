@@ -10,9 +10,7 @@ import i18nActions from '../../redux/i18n'
 
 import I18n from '../../i18n/index.js';
 
-import GridList from '../../components/GridList/index.android'
-
-class HomeScreen extends React.Component {
+class HomeContainer extends React.Component {
 
   /**
    * async componentWillMount - description
@@ -32,7 +30,6 @@ class HomeScreen extends React.Component {
 
   render() {
     const { navigation, banner } = this.props;
-    const titles = ['Gym Bouldering', 'Gym Routes', 'Outdoor Bouldering', 'Ice Climbing', 'Sport Climbing', 'Traditional Climbing']
 
     const { language, changeLanguage } = this.props
     const { setParams } = this.props.navigation
@@ -72,12 +69,13 @@ const styles = StyleSheet.create({
   },
   picker: {
     flex: 1,
+    width: 100,
     marginRight: 10,
+    justifyContent: 'flex-end'
   }
 });
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
     language: state.i18n.language,
   }
@@ -87,4 +85,4 @@ const mapStateToDispatch = dispatch => ({
   changeLanguage: (newLang) => dispatch(i18nActions.changeLanguage(newLang))
 })
 
-export default connect(mapStateToProps, mapStateToDispatch)(HomeScreen)
+export default connect(mapStateToProps, mapStateToDispatch)(HomeContainer)

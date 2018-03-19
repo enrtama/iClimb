@@ -9,8 +9,8 @@ import StartupActions from '../redux/startup'
 import { StyleSheet, View } from 'react-native';
 import { Spinner } from 'native-base';
 
-// Screens
-import HomeScreen from '../screens/Home/index.android'
+// Containers
+import HomeScreen from '../containers/Home/index.android'
 
 import Navigation from '../components/Navigation/index.android'
 

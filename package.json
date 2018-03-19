@@ -27,6 +27,7 @@
     "react-native": "0.52.0",
     "react-native-drawer": "^2.5.0",
     "react-native-easy-grid": "^0.1.17",
+    "react-native-maps": "^0.20.1",
     "react-native-training-chat-server": "^2.0.0",
     "react-native-vector-icons": "^4.5.0",
     "react-navigation": "^1.5.0",

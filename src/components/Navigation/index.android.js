@@ -1,6 +1,6 @@
 
 /**
- * 
+ *
  */
 
 import React from 'react';
@@ -11,7 +11,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MenuTabs from '../../routes/tabs.android'
 
 // Screens
-import LoginScreen from '../../screens/Login/index.android'
+import LoginScreen from '../../containers/Login/index.android'
 
 const MyLoginScreen = ({ navigation }) => (
   <LoginScreen banner={'Login'} navigation={navigation} />

@@ -4,7 +4,7 @@
  */
 
 import { combineReducers } from 'redux'
-import configureStore from './createStore'
+import configureStore from '../store/createStore'
 import rootSaga from '../sagas'
 
 export default () => {

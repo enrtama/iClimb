@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Text } from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default class Login extends React.Component {
+export default class LoginContainer extends React.Component {
   render() {
     return (
       <View style={styles.main}>

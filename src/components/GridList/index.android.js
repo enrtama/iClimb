@@ -15,16 +15,16 @@ export default class GridList extends React.Component {
     return (
       <Grid style={styles.grid}>
         <Col>
-          <GridItem title={items[0]} />
-          <GridItem title={items[1]} />
+          <GridItem title={items[0]} icon={require("../../../assets/menu1.png")}/>
+          <GridItem title={items[1]} icon={require("../../../assets/menu2.png")}/>
         </Col>
         <Col>
-          <GridItem title={items[2]} />
-          <GridItem title={items[3]} />
+          <GridItem title={items[2]} icon={require("../../../assets/menu3.png")}/>
+          <GridItem title={items[3]} icon={require("../../../assets/menu4.png")}/>
         </Col>
         <Col>
-          <GridItem title={items[4]} />
-          <GridItem title={items[5]} />
+          <GridItem title={items[4]} icon={require("../../../assets/menu5.png")}/>
+          <GridItem title={items[5]} icon={require("../../../assets/menu6.png")}/>
         </Col>
       </Grid>
     )
