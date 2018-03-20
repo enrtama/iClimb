@@ -11,7 +11,8 @@ export default () => {
   /* ------------- Assemble The Reducers ------------- */
   const rootReducer = combineReducers({
     i18n: require('./i18n').reducer,
-    user: require('./user').reducer
+    user: require('./user').reducer,
+    places: require('./places').reducer
   })
 
   return configureStore(rootReducer, rootSaga)
