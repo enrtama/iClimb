@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, Dimensions } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 
 export default class PlacesContainer extends React.Component {
   render() {
@@ -9,11 +9,17 @@ export default class PlacesContainer extends React.Component {
         <Text>Places</Text>
         <MapView style={styles.map}
           initialRegion={{
-            latitude: 52.379189,
-            longitude: 4.899431,
+            latitude: 52.383477,
+            longitude: 4.929267,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421
-          }}/>
+          }}>
+          <Marker
+            coordinate={{latitude: 52.383477,longitude: 4.929267}}
+            title={"Monk"}
+            description={"Bouldering Gym"}
+            image={require('../../../assets/shoe-pin.png')}/>
+          </MapView>
       </View>
     )
   }

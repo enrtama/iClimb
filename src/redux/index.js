@@ -10,7 +10,8 @@ import rootSaga from '../sagas'
 export default () => {
   /* ------------- Assemble The Reducers ------------- */
   const rootReducer = combineReducers({
-    i18n: require('./i18n').reducer
+    i18n: require('./i18n').reducer,
+    user: require('./user').reducer
   })
 
   return configureStore(rootReducer, rootSaga)
