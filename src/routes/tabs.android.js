@@ -1,52 +1,76 @@
+
+/**
+ *
+ */
+
 import React from 'react';
-import { TabNavigator, StackNavigator } from 'react-navigation';
-import { Platform, Text } from 'react-native';
+import { TabNavigator, StackNavigator, withNavigation } from 'react-navigation';
+import { Platform, Text, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // Containers
-import HomeScreen from '../containers/Home/index.android'
-import ChatScreen from '../containers/Chat/index.android'
-import FavoritesScreen from '../containers/Favorites/index.android'
-import PlacesScreen from '../containers/Places/index.android'
+import HomeContainer from '../containers/Home/index.android'
+import ChatContainer from '../containers/Chat/index.android'
+import FavoritesContainer from '../containers/Favorites/index.android'
+import PlacesContainer from '../containers/Places/index.android'
+import EventContainer from '../containers/Event/index.android'
 
-const MyHomeScreen = ({ navigation }) => (
-  <HomeScreen banner={'Home'} navigation={navigation} />
+const MyHomeContainer = ({ navigation }) => (
+  <HomeContainer banner={'Home'} navigation={navigation} />
 )
 
-const MyChatScreen = ({ navigation }) => (
-  <ChatScreen banner={'Chat'} navigation={navigation} />
+const MyChatContainer = ({ navigation }) => (
+  <ChatContainer banner={'Chat'} navigation={navigation} />
 )
 
-const MyFavoritesScreen = ({ navigation }) => (
-  <FavoritesScreen banner={'Favorites'} navigation={navigation} />
+const MyFavoritesContainer = ({ navigation }) => (
+  <FavoritesContainer banner={'Favorites'} navigation={navigation} />
 )
 
-const MyPlacesScreen = ({ navigation }) => (
-  <PlacesScreen banner={'Places'} navigation={navigation} />
+const MyPlacesContainer = ({ navigation }) => (
+  <PlacesContainer banner={'Places'} navigation={navigation} />
+)
+
+const MyEventContainer = ({ navigation }) => (
+  <EventContainer banner={'Event'} navigation={navigation} />
 )
 
 const MainStack = StackNavigator({
   Home: {
-    screen: MyHomeScreen,
+    screen: MyHomeContainer,
     path: '/',
     navigationOptions: ({navigation}) => ({
       title: 'Welcome',
+    })
+  },
+  EventItem: {
+    screen: MyEventContainer,
+    path: '/event/:id',
+    navigationOptions: ({navigation}) => ({
+      title: `${navigation.state.params.title}`,
+      headerStyle: {paddingLeft: 20, paddingRight: 20},
+      headerRight: <TouchableOpacity onPress={() => { navigation.goBack(null)}}>
+                     <Ionicons
+                       name={'ios-arrow-back'}
+                       size={26}
+                       style={{color:'black'}}/></TouchableOpacity>
     })
   }
 }, {
   headerMode: 'float',
   navigationOptions: ({navigation}) => ({
     headerStyle: {paddingLeft: 20},
-    headerLeft: <Text onPress={() => navigation.navigate('DrawerOpen')}><Ionicons
-                name={'ios-menu'}
-                size={26}
-                style={{color:'black'}}/></Text>
+    headerLeft: <Text onPress={() => navigation.navigate('DrawerOpen')}>
+                <Ionicons
+                  name={'ios-menu'}
+                  size={26}
+                  style={{color:'black'}}/></Text>
   })
 })
 
 const ChatStack = StackNavigator({
   Chat: {
-    screen: MyChatScreen,
+    screen: MyChatContainer,
     path: '/chat',
     navigationOptions: {
       title: 'Chats'
@@ -65,7 +89,7 @@ const ChatStack = StackNavigator({
 
 const FavoritesStack = StackNavigator({
   Favorites: {
-    screen: MyFavoritesScreen,
+    screen: MyFavoritesContainer,
     path: '/favorites',
     navigationOptions: {
       title: 'Favorites'
@@ -84,7 +108,7 @@ const FavoritesStack = StackNavigator({
 
 const PlacesStack = StackNavigator({
   Places: {
-    screen: MyPlacesScreen,
+    screen: MyPlacesContainer,
     path: '/places',
     navigationOptions: {
       title: 'Places'

@@ -4,14 +4,13 @@
  */
 
 import React from 'react';
-import { StyleSheet, View, Text, Dimensions } from 'react-native';
+import { StyleSheet, View, Dimensions } from 'react-native';
 import { connect } from 'react-redux'
 import MapView, { Marker } from 'react-native-maps';
 
 import PlacesActions from '../../redux/places'
 
 class PlacesContainer extends React.Component {
-
 
   /**
    * constructor - description
@@ -50,7 +49,6 @@ class PlacesContainer extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Places</Text>
         <MapView style={styles.map}
           initialRegion={{
             latitude: 52.383477,

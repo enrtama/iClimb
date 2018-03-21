@@ -8,7 +8,7 @@ const NAME = 'Enrique Tamames';
 const CHANNEL = 'Reactivate';
 const AVATAR = 'https://pbs.twimg.com/profile_images/806501058679816192/ZHFWIF-z_400x400.jpg';
 
-export default class ChatScreen extends React.Component {
+export default class ChatContainer extends React.Component {
 
   state = { messages: [], typing: "" }
 

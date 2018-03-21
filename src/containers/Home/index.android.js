@@ -3,14 +3,31 @@
  *
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { StyleSheet, View, Text, Button, Picker } from 'react-native';
 import { connect } from 'react-redux'
-import i18nActions from '../../redux/i18n'
+import { Spinner } from 'native-base';
 
-import I18n from '../../i18n/index.js';
+import i18nActions from '../../redux/i18n'
+import FavoritesActions from '../../redux/favorites'
+
+import I18n from '../../i18n/index';
+import List from '../../components/List/List';
 
 class HomeContainer extends React.Component {
+
+  /**
+   * constructor - description
+   *
+   * @param  {type} props description
+   * @return {type}       description
+   */
+  constructor(props) {
+    super(props)
+    this.state = {
+      events: []
+    }
+  }
 
   /**
    * async componentWillMount - description
@@ -18,9 +35,25 @@ class HomeContainer extends React.Component {
    * @return {type}  description
    */
   async componentWillMount() {
+    const { events } = this.props;
+    this.props.getEvents()
     await I18n.initAsync();
   }
 
+  /**
+   * componentWillReceiveProps - description
+   *
+   * @param  {type} nextProps description
+   * @return {type}           description
+   */
+  componentWillReceiveProps(nextProps) {
+    const { events } = nextProps;
+    this.setState({events})
+  }
+
+  /**
+   *
+   */
   _languageChanged = (changeLanguage, setParams) => (newLang) => {
     changeLanguage(newLang)
     setParams({
@@ -29,10 +62,9 @@ class HomeContainer extends React.Component {
   }
 
   render() {
-    const { navigation, banner } = this.props;
-
-    const { language, changeLanguage } = this.props
-    const { setParams } = this.props.navigation
+    const { navigation, banner, language, changeLanguage } = this.props;
+    const { setParams } = this.props.navigation;
+    const { events } = this.state;
 
     const languageOptions = Object.keys(I18n.translations).map((lang, i) => {
       return (
@@ -51,6 +83,7 @@ class HomeContainer extends React.Component {
                 onValueChange={ this._languageChanged(changeLanguage, setParams) }>
           { languageOptions }
         </Picker>
+        <List items={events} navigation={navigation}/>
       </View>
     )
   }
@@ -58,7 +91,8 @@ class HomeContainer extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    flexDirection: 'column',
+    alignContent: 'flex-start',
     flex: 1
   },
   header: {
@@ -78,11 +112,13 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     language: state.i18n.language,
+    events: state.favorites.events
   }
 }
 
 const mapStateToDispatch = dispatch => ({
-  changeLanguage: (newLang) => dispatch(i18nActions.changeLanguage(newLang))
+  changeLanguage: (newLang) => dispatch(i18nActions.changeLanguage(newLang)),
+  getEvents: () => dispatch(FavoritesActions.getEvents())
 })
 
 export default connect(mapStateToProps, mapStateToDispatch)(HomeContainer)
