@@ -11,14 +11,19 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 // Tab navigation
 import MenuTabs from '../../routes/tabs.android'
 
-// Screens
-import LoginScreen from '../../containers/Login/index.android'
+// Containers
+import LoginContainer from '../../containers/Login/index.android'
+import ResetPasswordContainer from '../../containers/ResetPassword/index.android'
 
-const MyLoginScreen = ({ navigation }) => (
-  <LoginScreen banner={'Login'} navigation={navigation} />
+const MyLoginContainer = ({ navigation }) => (
+  <LoginContainer banner={'Login'} navigation={navigation} />
 )
 
-MyLoginScreen.navigationOptions = {
+const MyResetPasswordContainer = ({ navigation }) => (
+  <ResetPasswordContainer banner={'Reset Password'} navigation={navigation} />
+)
+
+MyLoginContainer.navigationOptions = {
   drawerLabel: 'Login',
   title: 'Login',
   drawerIcon: ({ tintColor }) => (
@@ -30,9 +35,21 @@ MyLoginScreen.navigationOptions = {
   )
 }
 
+MyResetPasswordContainer.navigationOptions = {
+  drawerLabel: 'Reset Password',
+  title: 'Reset Password',
+  drawerIcon: ({ tintColor }) => (
+    <Ionicons
+      name={'ios-key'}
+      size={24}
+      style={{ color: tintColor }}
+    />
+  )
+}
+
 const LoginStack = StackNavigator({
   Login: {
-    screen: MyLoginScreen,
+    screen: MyLoginContainer,
     path: '/login',
     navigationOptions: {
       title: 'Login'
@@ -41,8 +58,27 @@ const LoginStack = StackNavigator({
 }, {
   headerMode: 'float',
   navigationOptions: ({navigation}) => ({
-    headerStyle: {paddingLeft: 20},
-    headerLeft: <Text onPress={() => navigation.navigate('DrawerOpen')}><Ionicons
+    headerStyle: {paddingRight: 20},
+    headerRight: <Text onPress={() => navigation.navigate('DrawerOpen')}><Ionicons
+                name={'ios-menu'}
+                size={26}
+                style={{color:'black'}}/></Text>
+  })
+})
+
+const ResetPasswordStack = StackNavigator({
+  ResetPassword: {
+    screen: MyResetPasswordContainer,
+    path: '/resetPassword',
+    navigationOptions: {
+      title: 'Reset Password'
+    }
+  }
+}, {
+  headerMode: 'float',
+  navigationOptions: ({navigation}) => ({
+    headerStyle: {paddingRight: 20},
+    headerRight: <Text onPress={() => navigation.navigate('DrawerOpen')}><Ionicons
                 name={'ios-menu'}
                 size={26}
                 style={{color:'black'}}/></Text>
@@ -52,9 +88,11 @@ const LoginStack = StackNavigator({
 const Drawer = DrawerNavigator(
   {
     Home: { screen: MenuTabs },
-    Login: { screen: LoginStack }
+    Login: { screen: LoginStack },
+    ResetPassword: { screen: ResetPasswordStack }
   },
   {
+    drawerPosition: 'right',
     contentOptions: {
       activeTintColor: '#e91e63',
     }

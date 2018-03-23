@@ -5,18 +5,37 @@
 import Expo from 'expo';
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import firebase from 'firebase';
+
 import StartupActions from '../redux/startup'
 import { StyleSheet, View } from 'react-native';
-import { Spinner } from 'native-base';
+import { Spinner, Root } from 'native-base';
 
-// Containers
+import { FIREBASE } from '../constants'
 import HomeScreen from '../containers/Home/index.android'
-
 import Navigation from '../components/Navigation/index.android'
+
+firebase.initializeApp({
+  apiKey: FIREBASE.API_KEY,
+  authDomain: FIREBASE.AUTH_DOMAIN,
+  databaseURL: FIREBASE.DATABASE_URL,
+  projectId: FIREBASE.PROJECT_ID,
+  storageBucket: FIREBASE.STORAGE_BUCKET,
+  messagingSenderId: FIREBASE.MESSAGING_SENDER_ID
+});
 
 class RootContainer extends React.Component {
   state = {
     fontLoaded: false
+  }
+
+  /**
+   * componentWillMount - description
+   *
+   * @return {type}  description
+   */
+  componentWillMount() {
+
   }
 
   /**
@@ -38,7 +57,9 @@ class RootContainer extends React.Component {
     }
     return (
       <View style={styles.container}>
-        <Navigation />
+        <Root>
+          <Navigation />
+        </Root>
       </View>
     )
   }

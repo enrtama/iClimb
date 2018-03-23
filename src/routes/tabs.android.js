@@ -49,18 +49,14 @@ const MainStack = StackNavigator({
     navigationOptions: ({navigation}) => ({
       title: `${navigation.state.params.title}`,
       headerStyle: {paddingLeft: 20, paddingRight: 20},
-      headerRight: <TouchableOpacity onPress={() => { navigation.goBack(null)}}>
-                     <Ionicons
-                       name={'ios-arrow-back'}
-                       size={26}
-                       style={{color:'black'}}/></TouchableOpacity>
+      headerLeft: <TouchableOpacity onPress={() => { navigation.goBack(null)}}>back</TouchableOpacity>
     })
   }
 }, {
   headerMode: 'float',
   navigationOptions: ({navigation}) => ({
-    headerStyle: {paddingLeft: 20},
-    headerLeft: <Text onPress={() => navigation.navigate('DrawerOpen')}>
+    headerStyle: {paddingRight: 20},
+    headerRight: <Text onPress={() => navigation.navigate('DrawerOpen')}>
                 <Ionicons
                   name={'ios-menu'}
                   size={26}
@@ -79,8 +75,8 @@ const ChatStack = StackNavigator({
 }, {
   headerMode: 'float',
   navigationOptions: ({navigation}) => ({
-    headerStyle: {paddingLeft: 20},
-    headerLeft: <Text onPress={() => navigation.navigate('DrawerOpen')}><Ionicons
+    headerStyle: {paddingRight: 20},
+    headerRight: <Text onPress={() => navigation.navigate('DrawerOpen')}><Ionicons
                 name={'ios-menu'}
                 size={26}
                 style={{color:'black'}}/></Text>
@@ -98,8 +94,8 @@ const FavoritesStack = StackNavigator({
 }, {
   headerMode: 'float',
   navigationOptions: ({navigation}) => ({
-    headerStyle: {paddingLeft: 20},
-    headerLeft: <Text onPress={() => navigation.navigate('DrawerOpen')}><Ionicons
+    headerStyle: {paddingRight: 20},
+    headerRight: <Text onPress={() => navigation.navigate('DrawerOpen')}><Ionicons
                 name={'ios-menu'}
                 size={26}
                 style={{color:'black'}}/></Text>
@@ -117,8 +113,8 @@ const PlacesStack = StackNavigator({
 }, {
   headerMode: 'float',
   navigationOptions: ({navigation}) => ({
-    headerStyle: {paddingLeft: 20},
-    headerLeft: <Text onPress={() => navigation.navigate('DrawerOpen')}><Ionicons
+    headerStyle: {paddingRight: 20},
+    headerRight: <Text onPress={() => navigation.navigate('DrawerOpen')}><Ionicons
                 name={'ios-menu'}
                 size={26}
                 style={{color:'black'}}/></Text>

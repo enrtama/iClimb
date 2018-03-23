@@ -29,9 +29,9 @@ export const getEvents = (state, {events}) => state.merge({
   events
 })
 
-export const getEventsSucceeded = (state, {events}) => {
-  return state.merge({events})
-}
+export const getEventsSucceeded = (state, {events}) => state.merge({
+  events
+})
 
 export const getEventsFailed = (state, {events}) => state.merge({
   events

@@ -9,26 +9,58 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const {Types, Creators} = createActions({
-  login: ['user']
+  login: ['user'],
+  loginSucceeded: ['isAuthenticated'],
+  loginFailed: ['error'],
+  resetPassword: ['user'],
+  resetPasswordSucceeded: ['password'],
+  resetPasswordFailed: ['error']
 })
 
-export const userTypes = Types
+export const UserTypes = Types
 export default Creators
 
 /* ------------- Initial State ------------- */
 export const INITIAL_STATE = Immutable({
-  user: null
+  user: null,
+  isAuthenticated: false,
+  error: null
 })
 
 /* ------------- Reducers ------------- */
 
-// request the data from an api
+// Request the data from an api
 export const login = (state, {user}) => state.merge({
   user
+})
+
+export const loginSucceeded = (state, {isAuthenticated}) => state.merge({
+  isAuthenticated
+})
+
+export const loginFailed = (state, {error}) => state.merge({
+  error
+})
+
+export const resetPassword = (state, {user}) => state.merge({
+  user
+})
+
+export const resetPasswordSucceeded = (state, {isAuthenticated}) => state.merge({
+  isAuthenticated
+})
+
+export const resetPasswordFailed = (state, {error}) => state.merge({
+  error
 })
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.LOGIN]: login,
+  [Types.LOGIN_SUCCEEDED]: loginSucceeded,
+  [Types.LOGIN_FAILED]: loginFailed,
+  [Types.RESET_PASSWORD]: resetPassword,
+  [Types.RESET_PASSWORD_SUCCEEDED]: resetPasswordSucceeded,
+  [Types.RESET_PASSWORD_FAILED]: resetPasswordFailed
 })

@@ -10,13 +10,26 @@ export const User = t.struct({
   password: t.String
 });
 
-export const UserOptions = {
+export const ResetPassword = t.struct({
+  email: t.String
+});
+
+export const UserOptionsLogin = {
   fields: {
     email: {
       error: 'Email needed to login'
     },
     password: {
-      error: 'Password needed to login'
+      error: 'Password needed to login',
+      secureTextEntry: true
+    }
+  }
+}
+
+export const UserOptionsForgotPassword = {
+  fields: {
+    email: {
+      error: 'Email needed to reset password'
     }
   }
 }

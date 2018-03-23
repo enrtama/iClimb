@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Content, Container, Segment, Button, Fab } from 'native-base';
+import { Content, Container, Segment, Button, Fab, Toast } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { StyleSheet, View, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -39,8 +39,15 @@ const event = {
 
 export default class EventContainer extends React.Component {
 
-  state = { currentView: "info" }
+  state = { currentView: "info", showToast: false }
 
+
+  /**
+   * renderContent - description
+   *
+   * @param  {type} view description
+   * @return {type}      description
+   */
   renderContent(view) {
     switch(view) {
       case VIEWS.INFO:
@@ -57,6 +64,12 @@ export default class EventContainer extends React.Component {
     }
   }
 
+
+  /**
+   * render - description
+   *
+   * @return {type}  description
+   */
   render() {
     const { navigation } = this.props;
     const { currentView } = this.state;
@@ -86,7 +99,12 @@ export default class EventContainer extends React.Component {
             <Text>{VIEWS.GALLERY}</Text>
           </Button>
         </Segment>
-        <Content padder>
+        <FAB onClick={(message) => Toast.show({
+              text: message,
+              position: 'bottom',
+              buttonText: 'Okay'
+            })} />
+        <Content>
           <Grid><Row><Col>{this.renderContent(currentView)}</Col></Row></Grid>
         </Content>
       </Container>
@@ -97,8 +115,5 @@ export default class EventContainer extends React.Component {
 const styles = StyleSheet.create({
   segments: {
     backgroundColor: 'transparent'
-  },
-  fab: {
-    flex: 1
   }
 });
