@@ -48,8 +48,11 @@ const MainStack = StackNavigator({
     path: '/event/:id',
     navigationOptions: ({navigation}) => ({
       title: `${navigation.state.params.title}`,
-      headerStyle: {paddingLeft: 20, paddingRight: 20},
-      headerLeft: <TouchableOpacity onPress={() => { navigation.goBack(null)}}>back</TouchableOpacity>
+      headerStyle: {paddingLeft: 10, paddingRight: 20},
+      headerLeft: <TouchableOpacity onPress={() => { navigation.goBack(null)}}><Ionicons
+        name={'ios-arrow-round-back'}
+        size={26}
+        style={{color:'black'}}/></TouchableOpacity>
     })
   }
 }, {
