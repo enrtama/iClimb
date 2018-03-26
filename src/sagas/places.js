@@ -3,17 +3,15 @@
  *
  */
 
-import { put, delay, select } from 'redux-saga/effects'
+import { put, call } from 'redux-saga/effects'
 import { PlacesTypes } from '../redux/places'
-
-import MARKERS from '../mockup/markers.js'
+import { reduxSagaFirebase } from '../config/firebase.js'
 
 export function* getMarkers(action) {
-  yield put({type: PlacesTypes.GET_MARKERS_SUCCEEDED, markers: MARKERS});
-  // try {
-  //   console.log(PLACES)
-  //   yield put({type: "GET_MARKERS_SUCCEEDED", places: PLACES});
-  // } catch (e) {
-  //   yield put({type: "GET_MARKERS_FAILED", message: e.message});
-  // }
+  try {
+    const markers = yield call(reduxSagaFirebase.database.read, 'markers/');
+    yield put({type: PlacesTypes.GET_MARKERS_SUCCEEDED, markers: markers});
+  } catch (error) {
+     yield put({type: FavoritesTypes.GET_MARKERS_FAILED, error: error.message});
+  }
 }

@@ -17,7 +17,7 @@ import { startup } from './startup'
 import { updateLanguage } from './i18n'
 import { getMarkers } from './places'
 import { getEvents } from './favorites'
-import { login, resetPassword } from './user'
+import { login, signup, resetPassword } from './user'
 
 /* ------------- Connect Types To Sagas ------------- */
 export default function* root() {
@@ -27,6 +27,7 @@ export default function* root() {
     takeLatest(PlacesTypes.GET_MARKERS, getMarkers),
     takeLatest(FavoritesTypes.GET_EVENTS, getEvents),
     takeLatest(UserTypes.LOGIN, login),
+    takeLatest(UserTypes.SIGNUP, signup),
     takeLatest(UserTypes.RESET_PASSWORD, resetPassword)
   ])
 }

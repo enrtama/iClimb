@@ -31,7 +31,6 @@ class PlacesContainer extends React.Component {
    * @return {type}  description
    */
   componentWillMount() {
-    const { markers } = this.props;
     this.props.getMarkers()
   }
 
@@ -47,6 +46,7 @@ class PlacesContainer extends React.Component {
   }
 
   render() {
+    const { markers } = this.state
     return (
       <View style={styles.container}>
         <MapView style={styles.map}
@@ -56,7 +56,7 @@ class PlacesContainer extends React.Component {
             latitudeDelta: 0.0992,
             longitudeDelta: 0.0491
           }}>
-          {this.state.markers.map(marker => (
+          {markers && markers.length > 0 && this.state.markers.map(marker => (
             <Marker
               key={marker.id}
               coordinate={marker.coordinate}

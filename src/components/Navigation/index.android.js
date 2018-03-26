@@ -14,6 +14,7 @@ import MenuTabs from '../../routes/tabs.android'
 // Containers
 import LoginContainer from '../../containers/Login/index.android'
 import ResetPasswordContainer from '../../containers/ResetPassword/index.android'
+import SignupContainer from '../../containers/Signup/index.android'
 
 const MyLoginContainer = ({ navigation }) => (
   <LoginContainer banner={'Login'} navigation={navigation} />
@@ -21,6 +22,10 @@ const MyLoginContainer = ({ navigation }) => (
 
 const MyResetPasswordContainer = ({ navigation }) => (
   <ResetPasswordContainer banner={'Reset Password'} navigation={navigation} />
+)
+
+const MySignupContainer = ({ navigation }) => (
+  <SignupContainer banner={'Sign up'} navigation={navigation} />
 )
 
 MyLoginContainer.navigationOptions = {
@@ -41,6 +46,18 @@ MyResetPasswordContainer.navigationOptions = {
   drawerIcon: ({ tintColor }) => (
     <Ionicons
       name={'ios-key'}
+      size={24}
+      style={{ color: tintColor }}
+    />
+  )
+}
+
+MySignupContainer.navigationOptions = {
+  drawerLabel: 'Sign up',
+  title: 'Sign up',
+  drawerIcon: ({ tintColor }) => (
+    <Ionicons
+      name={'md-person-add'}
       size={24}
       style={{ color: tintColor }}
     />
@@ -85,10 +102,30 @@ const ResetPasswordStack = StackNavigator({
   })
 })
 
+const SignupStack = StackNavigator({
+  Signup: {
+    screen: MySignupContainer,
+    path: '/signup',
+    navigationOptions: {
+      title: 'Sign up'
+    }
+  }
+}, {
+  headerMode: 'float',
+  navigationOptions: ({navigation}) => ({
+    headerStyle: {paddingRight: 20},
+    headerRight: <Text onPress={() => navigation.navigate('DrawerOpen')}><Ionicons
+                name={'ios-menu'}
+                size={26}
+                style={{color:'black'}}/></Text>
+  })
+})
+
 const Drawer = DrawerNavigator(
   {
     Home: { screen: MenuTabs },
     Login: { screen: LoginStack },
+    Signup: { screen: SignupStack },
     ResetPassword: { screen: ResetPasswordStack }
   },
   {

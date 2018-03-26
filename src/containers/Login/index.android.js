@@ -28,7 +28,6 @@ class LoginContainer extends React.Component {
     super(props);
     this.state = { error: '',loading: false }
     this.handleSignin = this.handleSignin.bind(this)
-    this.handleSignup = this.handleSignup.bind(this)
   }
 
   /**
@@ -40,47 +39,6 @@ class LoginContainer extends React.Component {
     this.props.login(user)
   }
 
-  /**
-   * handleSignup - description
-   *
-   * @return {type}  description
-   */
-  handleSignup() {
-    const user = this._form.getValue(); // use that ref to get the form value
-    const { email, password } = user;
-
-    this.setState({ error: '', loading: true });
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then(() => { this.setState({ error: '', loading: false }); })
-      .catch(() => {
-        this.setState({ error: 'Create account failed.', loading: false });
-      });
-  }
-
-  /**
-   * renderSigninButtonOrSpinner - description
-   *
-   * @return {type}  description
-   */
-  renderSigninButtonOrSpinner() {
-    if (this.state.loading) {
-        return <Spinner />;
-    }
-    return <Button onPress={this.handleSignin} title="Sign in" />;
-  }
-
-  /**
-   * renderSignupButtonOrSpinner - description
-   *
-   * @return {type}  description
-   */
-  renderSignupButtonOrSpinner() {
-    if (this.state.loading) {
-        return <Spinner />;
-    }
-    return <Button onPress={this.handleSignup} title="Sign up" />;
-  }
-
   render() {
     return (
       <View style={styles.container}>
@@ -89,7 +47,6 @@ class LoginContainer extends React.Component {
           type={User}
           options={UserOptionsLogin} />
           {this.renderSigninButtonOrSpinner()}
-          {this.renderSignupButtonOrSpinner()}
           <Text style={styles.errorTextStyle}>{this.state.error}</Text>
       </View>
     )

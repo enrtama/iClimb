@@ -11,6 +11,8 @@ import { Spinner } from 'native-base';
 import i18nActions from '../../redux/i18n'
 import FavoritesActions from '../../redux/favorites'
 
+import { database } from '../../config/firebase'
+
 import I18n from '../../i18n/index';
 import List from '../../components/List/List';
 
@@ -35,7 +37,6 @@ class HomeContainer extends React.Component {
    * @return {type}  description
    */
   async componentWillMount() {
-    const { events } = this.props;
     this.props.getEvents()
     await I18n.initAsync();
   }
@@ -73,6 +74,7 @@ class HomeContainer extends React.Component {
                      value={ lang } />)
     })
 
+    console.log(events);
     return (
       <View style={styles.container}>
         <Text style={ styles.header }>
@@ -83,7 +85,7 @@ class HomeContainer extends React.Component {
                 onValueChange={ this._languageChanged(changeLanguage, setParams) }>
           { languageOptions }
         </Picker>
-        <List items={events} navigation={navigation}/>
+        {events && events.length > 0 && <List items={events} navigation={navigation}/>}
       </View>
     )
   }

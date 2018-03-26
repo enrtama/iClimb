@@ -12,6 +12,9 @@ const {Types, Creators} = createActions({
   login: ['user'],
   loginSucceeded: ['isAuthenticated'],
   loginFailed: ['error'],
+  signup: ['user'],
+  signupSucceeded: ['user'],
+  signupFailed: ['error'],
   resetPassword: ['user'],
   resetPasswordSucceeded: ['password'],
   resetPasswordFailed: ['error']
@@ -42,6 +45,18 @@ export const loginFailed = (state, {error}) => state.merge({
   error
 })
 
+export const signup = (state, {user}) => state.merge({
+  user
+})
+
+export const signupSucceeded = (state, {user}) => state.merge({
+  user
+})
+
+export const signupFailed = (state, {error}) => state.merge({
+  error
+})
+
 export const resetPassword = (state, {user}) => state.merge({
   user
 })
@@ -60,6 +75,9 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.LOGIN]: login,
   [Types.LOGIN_SUCCEEDED]: loginSucceeded,
   [Types.LOGIN_FAILED]: loginFailed,
+  [Types.SIGNUP]: signup,
+  [Types.SIGNUP_SUCCEEDED]: signupSucceeded,
+  [Types.SIGNUP_FAILED]: signupFailed,
   [Types.RESET_PASSWORD]: resetPassword,
   [Types.RESET_PASSWORD_SUCCEEDED]: resetPasswordSucceeded,
   [Types.RESET_PASSWORD_FAILED]: resetPasswordFailed

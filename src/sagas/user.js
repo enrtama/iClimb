@@ -32,3 +32,15 @@ export function* resetPassword(action) {
      yield put({type: "RESET_PASSWORD_FAILED", error: error.message});
   }
 }
+
+export function* signup(action) {
+  const { user } = action;
+  const { email, password } = user;
+  try {
+     auth.createUserWithEmailAndPassword(email, password)
+       .catch((error) => { alert(error.message) });
+     yield put({type: "SIGNUP_SUCCEEDED"});
+  } catch (error) {
+     yield put({type: "SIGNUP_FAILED", error: error.message});
+  }
+}

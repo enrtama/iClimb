@@ -9,8 +9,8 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const {Types, Creators} = createActions({
-  getEvents: ['favorites'],
-  getEventsSucceeded: ['favorites'],
+  getEvents: ['events'],
+  getEventsSucceeded: ['events'],
   getEventsFailed: ['error']
 })
 

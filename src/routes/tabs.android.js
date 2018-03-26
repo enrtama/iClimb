@@ -51,7 +51,7 @@ const MainStack = StackNavigator({
       headerStyle: {paddingLeft: 10, paddingRight: 20},
       headerLeft: <TouchableOpacity onPress={() => { navigation.goBack(null)}}><Ionicons
         name={'ios-arrow-round-back'}
-        size={26}
+        size={32}
         style={{color:'black'}}/></TouchableOpacity>
     })
   }

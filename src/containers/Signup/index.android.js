@@ -12,10 +12,10 @@ import t from 'tcomb-form-native';
 import UserActions from '../../redux/user'
 
 // Model
-import { ResetPassword, UserOptionsResetPassword } from '../../models/User'
+import { User, UserOptionsLogin } from '../../models/User'
 const Form = t.form.Form;
 
-class ResetPasswordContainer extends React.Component {
+class SignupContainer extends React.Component {
 
   /**
    * constructor - description
@@ -26,28 +26,28 @@ class ResetPasswordContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = { error: '',loading: false }
-    this.handleResetPassword = this.handleResetPassword.bind(this)
+    this.handleSignup = this.handleSignup.bind(this)
   }
 
   /**
    *
    */
-  handleResetPassword() {
+  handleSignup() {
     // Use that ref to get the form value
     const user = this._form.getValue();
-    this.props.resetPassword(user)
+    this.props.signup(user)
   }
 
   /**
-   * renderResetPasswordButtonOrSpinner - description
+   * renderSignupButtonOrSpinner - description
    *
    * @return {type}  description
    */
-  renderResetPasswordButtonOrSpinner() {
+  renderSignupButtonOrSpinner() {
     if (this.state.loading) {
         return <Spinner />;
     }
-    return <Button onPress={this.handleResetPassword} title="Reset Password" />;
+    return <Button onPress={this.handleSignup} title="Sign up" />;
   }
 
   render() {
@@ -55,9 +55,9 @@ class ResetPasswordContainer extends React.Component {
       <View style={styles.container}>
         <Form
           ref={c => this._form = c}
-          type={ResetPassword}
-          options={UserOptionsResetPassword} />
-          {this.renderResetPasswordButtonOrSpinner()}
+          type={User}
+          options={UserOptionsLogin} />
+          {this.renderSignupButtonOrSpinner()}
           <Text style={styles.errorTextStyle}>{this.state.error}</Text>
       </View>
     )
@@ -86,7 +86,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapStateToDispatch = dispatch => ({
-  resetPassword: (user) => dispatch(UserActions.resetPassword(user))
+  signup: (user) => dispatch(UserActions.signup(user))
 })
 
-export default connect(mapStateToProps, mapStateToDispatch)(ResetPasswordContainer)
+export default connect(mapStateToProps, mapStateToDispatch)(SignupContainer)
