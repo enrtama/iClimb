@@ -62,8 +62,8 @@ export const signupFailed = (state, {error}) => state.merge({
 
 export const signout = (state) => state
 
-export const signoutSucceeded = (state) => state.merge({
-  isAuthenticated: false
+export const signoutSucceeded = (state, {user}) => state.merge({
+  isAuthenticated: false, user
 })
 
 export const signoutFailed = (state, {error}) => state.merge({

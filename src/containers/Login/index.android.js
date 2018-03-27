@@ -36,7 +36,7 @@ class LoginContainer extends React.Component {
   handleSignin() {
     // Use that ref to get the form value
     const user = this._form.getValue();
-    this.props.login(user)
+    user && this.props.login(user)
   }
 
   /**

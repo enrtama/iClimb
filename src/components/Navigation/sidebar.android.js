@@ -8,6 +8,8 @@ import { StyleSheet, ScrollView, Text, View, TouchableOpacity } from 'react-nati
 import { NavigationActions } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import UserActions from '../../redux/user'
+
 import SidebarHeader from './sidebarheader.android'
 
 class SidebarContainer extends React.Component {
@@ -37,8 +39,7 @@ class SidebarContainer extends React.Component {
    *
    */
   signout = () => () => {
-    console.log(this.props.auth);
-    alert('signout!')
+    this.props.signout()
   }
 
   render () {
@@ -135,7 +136,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapStateToDispatch = dispatch => ({
-  // signout: (user) => dispatch(UserActions.signout(user))
+  signout: () => dispatch(UserActions.signout())
 })
 
 export default connect(mapStateToProps, mapStateToDispatch)(SidebarContainer)
