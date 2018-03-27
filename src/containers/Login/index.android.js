@@ -39,6 +39,18 @@ class LoginContainer extends React.Component {
     this.props.login(user)
   }
 
+  /**
+   * renderSigninButtonOrSpinner - description
+   *
+   * @return {type}  description
+   */
+  renderSigninButtonOrSpinner() {
+    if (this.state.loading) {
+        return <Spinner />;
+    }
+    return <Button onPress={this.handleSignin} title="Sign in" />;
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -70,7 +82,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    auth: state.auth
   }
 }
 

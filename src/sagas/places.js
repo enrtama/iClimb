@@ -5,7 +5,7 @@
 
 import { put, call } from 'redux-saga/effects'
 import { PlacesTypes } from '../redux/places'
-import { reduxSagaFirebase } from '../config/firebase.js'
+import { reduxSagaFirebase } from '../config/firebase'
 
 export function* getMarkers(action) {
   try {

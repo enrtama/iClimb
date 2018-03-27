@@ -73,8 +73,7 @@ class HomeContainer extends React.Component {
                      label={ I18n.translations[lang].id }
                      value={ lang } />)
     })
-
-    console.log(events);
+    
     return (
       <View style={styles.container}>
         <Text style={ styles.header }>

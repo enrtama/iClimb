@@ -5,7 +5,7 @@
 
 import { put, call } from 'redux-saga/effects'
 import { FavoritesTypes } from '../redux/favorites'
-import { reduxSagaFirebase } from '../config/firebase.js'
+import { reduxSagaFirebase } from '../config/firebase'
 
 export function* getEvents(action) {
   try {

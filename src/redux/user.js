@@ -10,11 +10,14 @@ import Immutable from 'seamless-immutable'
 
 const {Types, Creators} = createActions({
   login: ['user'],
-  loginSucceeded: ['isAuthenticated'],
+  loginSucceeded: ['isAuthenticated', 'user'],
   loginFailed: ['error'],
   signup: ['user'],
   signupSucceeded: ['user'],
   signupFailed: ['error'],
+  signout: ['user'],
+  signoutSucceeded: ['user'],
+  signoutFailed: ['error'],
   resetPassword: ['user'],
   resetPasswordSucceeded: ['password'],
   resetPasswordFailed: ['error']
@@ -37,12 +40,12 @@ export const login = (state, {user}) => state.merge({
   user
 })
 
-export const loginSucceeded = (state, {isAuthenticated}) => state.merge({
-  isAuthenticated
+export const loginSucceeded = (state, {isAuthenticated, user}) => state.merge({
+  isAuthenticated, user, error: null
 })
 
 export const loginFailed = (state, {error}) => state.merge({
-  error
+  error, user: null
 })
 
 export const signup = (state, {user}) => state.merge({
@@ -54,6 +57,16 @@ export const signupSucceeded = (state, {user}) => state.merge({
 })
 
 export const signupFailed = (state, {error}) => state.merge({
+  error
+})
+
+export const signout = (state) => state
+
+export const signoutSucceeded = (state) => state.merge({
+  isAuthenticated: false
+})
+
+export const signoutFailed = (state, {error}) => state.merge({
   error
 })
 
@@ -78,6 +91,9 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SIGNUP]: signup,
   [Types.SIGNUP_SUCCEEDED]: signupSucceeded,
   [Types.SIGNUP_FAILED]: signupFailed,
+  [Types.SIGNOUT]: signout,
+  [Types.SIGNOUT_SUCCEEDED]: signoutSucceeded,
+  [Types.SIGNOUT_FAILED]: signoutFailed,
   [Types.RESET_PASSWORD]: resetPassword,
   [Types.RESET_PASSWORD_SUCCEEDED]: resetPasswordSucceeded,
   [Types.RESET_PASSWORD_FAILED]: resetPasswordFailed

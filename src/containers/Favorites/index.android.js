@@ -1,3 +1,8 @@
+
+/**
+ *
+ */
+  
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import GridList from '../../components/GridList/index.android'
