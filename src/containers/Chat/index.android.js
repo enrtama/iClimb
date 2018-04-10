@@ -1,6 +1,12 @@
+
+/**
+ *
+ */
+
 import React from 'react';
-// import { send, subscribe } from 'react-native-training-chat-server';
-import { StyleSheet, Text, View, FlatList, TextInput, KeyboardAvoidingView, TouchableOpacity, Image } from 'react-native';
+import KeyboardSpacer from 'react-native-keyboard-spacer'
+import { GiftedChat } from 'react-native-gifted-chat'
+import { StyleSheet, Text, View, LayoutAnimation } from 'react-native';
 
 import Header from './Header.android'
 
@@ -8,57 +14,84 @@ const NAME = 'Enrique Tamames';
 const CHANNEL = 'Reactivate';
 const AVATAR = 'https://pbs.twimg.com/profile_images/806501058679816192/ZHFWIF-z_400x400.jpg';
 
+const CustomLayoutSpring = {
+  duration: 400,
+  create: {
+    type: LayoutAnimation.Types.spring,
+    property: LayoutAnimation.Properties.scaleXY,
+    springDamping: 0.7,
+  },
+  update: {
+    type: LayoutAnimation.Types.spring,
+    springDamping: 0.7,
+  },
+}
+
+const KEYBOARD_OFFSET = -50
+
 export default class ChatContainer extends React.Component {
 
-  // state = { messages: [], typing: "" }
-  //
-  // componentDidMount() {
-  //   subscribe(CHANNEL, messages => {
-  //     this.setState({messages});
-  //   });
-  // }
-  //
-  // async sendMessage() {
-  //   // send message to our channel, with sender name.
-  //   // the `await` keyword means this function execution
-  //   // waits until the message is sent
-  //   await send({
-  //     channel: CHANNEL,
-  //     sender: NAME,
-  //     avatar: AVATAR,
-  //     message: this.state.typing
-  //   });
-  //
-  //   // set the component state (clears text input)
-  //   this.setState({
-  //     typing: '',
-  //   });
-  // }
-  //
-  // renderItem({item}) {
-  //   return (
-  //     <View style={styles.row}>
-  //       <Image style={styles.avatar} source={{uri: item.avatar}} />
-  //       <View style={styles.rowText}>
-  //         <Text style={styles.sender}>{item.sender}</Text>
-  //         <Text style={styles.message}>{item.message}</Text>
-  //       </View>
-  //     </View>
-  //   )
-  // }
+  state = { messages: [] }
 
+  /**
+   * componentWillMount - description
+   *
+   * @return {type}  description
+   */
+  componentWillMount() {
+    this.setState({
+      messages: [
+        {
+          _id: 1,
+          text: 'Hello developer',
+          createdAt: new Date(),
+          user: {
+            _id: 2,
+            name: 'React Native',
+            avatar: 'https://facebook.github.io/react/img/logo_og.png',
+          },
+        },
+      ],
+    });
+  }
+
+  /**
+   * onSend - description
+   *
+   * @param  {type} messages = [] description
+   * @return {type}               description
+   */
+  onSend(messages = []) {
+    this.setState((previousState) => ({
+      messages: GiftedChat.append(previousState.messages, messages),
+    }));
+  }
+
+  /**
+   * render - description
+   *
+   * @return {type}  description
+   */
   render() {
     return (
-      <View style={styles.container}>
-        <Header title={CHANNEL} />
-      </View>
+        <View style={{flex: 1}}>
+          <Header title={CHANNEL} />
+          <GiftedChat
+            messages={this.state.messages}
+            isAnimated={true}
+            onSend={(messages) => this.onSend(messages)}
+            user={{
+             _id: 1
+            }}
+          />
+          <KeyboardSpacer topSpacing={KEYBOARD_OFFSET} animationConfig={LayoutAnimation.configureNext(CustomLayoutSpring)}/>
+        </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff'
   },
   row: {

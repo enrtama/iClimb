@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, Fab } from 'native-base';
 import { StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -48,6 +49,11 @@ export default class FAB extends React.Component {
        </Fab>
      )
   }
+}
+
+FAB.propTypes = {
+  onClick: PropTypes.func,
+  onClick: PropTypes.func.isRequired
 }
 
 const styles = StyleSheet.create({

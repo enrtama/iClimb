@@ -5,6 +5,7 @@
 
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
+import { NavigationActions } from 'react-navigation';
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -20,7 +21,10 @@ const {Types, Creators} = createActions({
   signoutFailed: ['error'],
   resetPassword: ['user'],
   resetPasswordSucceeded: ['password'],
-  resetPasswordFailed: ['error']
+  resetPasswordFailed: ['error'],
+  saveAvatar: ['avatar'],
+  saveAvatarSucceeded: ['avatar'],
+  saveAvatarFailed: ['error']
 })
 
 export const UserTypes = Types
@@ -82,6 +86,18 @@ export const resetPasswordFailed = (state, {error}) => state.merge({
   error
 })
 
+export const saveAvatar = (state, {avatar}) => state.merge({
+  avatar
+})
+
+export const saveAvatarSucceeded = (state, {avatar}) => state.merge({
+  avatar
+})
+
+export const saveAvatarFailed = (state, {error}) => state.merge({
+  error
+})
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -96,5 +112,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SIGNOUT_FAILED]: signoutFailed,
   [Types.RESET_PASSWORD]: resetPassword,
   [Types.RESET_PASSWORD_SUCCEEDED]: resetPasswordSucceeded,
-  [Types.RESET_PASSWORD_FAILED]: resetPasswordFailed
+  [Types.RESET_PASSWORD_FAILED]: resetPasswordFailed,
+  [Types.SAVE_AVATAR]: saveAvatar,
+  [Types.SAVE_AVATAR_SUCCEEDED]: saveAvatarSucceeded,
+  [Types.SAVE_AVATAR_FAILED]: saveAvatarFailed
 })

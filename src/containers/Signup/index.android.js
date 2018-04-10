@@ -4,8 +4,9 @@
  */
 
 import React from 'react';
-import { StyleSheet, View, Text, Button, Platform } from 'react-native';
-import { Spinner } from 'native-base';
+import { StyleSheet, View, Text, Platform } from 'react-native';
+import { Container, Content, Footer, Button } from 'native-base';
+import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux'
 import t from 'tcomb-form-native';
 
@@ -25,8 +26,20 @@ class SignupContainer extends React.Component {
    */
   constructor(props) {
     super(props);
-    this.state = { error: '',loading: false }
     this.handleSignup = this.handleSignup.bind(this)
+  }
+
+  /**
+   * navigateToScreen - description
+   *
+   * @param  {type} route description
+   * @return {type}       description
+   */
+  navigateToScreen = (route) => () => {
+    const navigateAction = NavigationActions.navigate({
+      routeName: route
+    });
+    this.props.navigation.dispatch(navigateAction);
   }
 
   /**
@@ -35,7 +48,7 @@ class SignupContainer extends React.Component {
   handleSignup() {
     // Use that ref to get the form value
     const user = this._form.getValue();
-    this.props.signup(user)
+    user && this.props.signup(user)
   }
 
   /**
@@ -43,23 +56,34 @@ class SignupContainer extends React.Component {
    *
    * @return {type}  description
    */
-  renderSignupButtonOrSpinner() {
-    if (this.state.loading) {
-        return <Spinner />;
-    }
-    return <Button onPress={this.handleSignup} title="Sign up" />;
+  renderSignupButton() {
+    return <Button rounded block style={styles.button} onPress={this.handleSignup}><Text style={styles.textButton}>Create</Text></Button>;
+  }
+
+  /**
+   * renderSigninButton - description
+   *
+   * @return {type}  description
+   */
+  renderSigninButton() {
+    return <Button rounded block style={styles.button} onPress={this.navigateToScreen('Login')}><Text style={styles.textButton}>Login</Text></Button>
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Form
-          ref={c => this._form = c}
-          type={User}
-          options={UserOptionsLogin} />
-          {this.renderSignupButtonOrSpinner()}
-          <Text style={styles.errorTextStyle}>{this.state.error}</Text>
-      </View>
+      <Container style={styles.container}>
+        <Content>
+          <Form
+            ref={c => this._form = c}
+            type={User}
+            options={UserOptionsLogin} />
+            <View>
+              {this.renderSignupButton()}
+              <Text style={styles.textSeparator}>or</Text>
+              {this.renderSigninButton()}
+            </View>
+          </Content>
+      </Container>
     )
   }
 }
@@ -70,18 +94,23 @@ const styles = StyleSheet.create({
     marginTop: 25,
     padding: 20
   },
-  errorTextStyle: {
-    color: '#E64A19',
-    alignSelf: 'center',
-    paddingTop: 10,
-    paddingBottom: 10
+  button: {
+    padding: 10
+  },
+  textButton: {
+    color: 'white',
+    fontSize: 16
+  },
+  textSeparator: {
+    textAlign: 'center',
+    padding: 15
   }
 });
 
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
+    auth: state.auth,
   }
 }
 

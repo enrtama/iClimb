@@ -1,3 +1,4 @@
+// @flow
 
 /**
  *
@@ -5,11 +6,11 @@
 
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
-import './src/i18n' // keep before RootContainer
+import './src/i18n'
 import RootContainer from './src/containers/RootContainer'
 import createStore from './src/redux'
 
-// create our store
+// Create our store
 const store = createStore()
 
 /**
@@ -21,7 +22,7 @@ const store = createStore()
  *
  * We separate like this to play nice with React Native's hot reloading.
  */
-class App extends Component {
+class App extends Component<Props> {
 
   render () {
     return (

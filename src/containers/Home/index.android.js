@@ -1,12 +1,11 @@
-
 /**
  *
  */
 
 import React from 'react';
-import { StyleSheet, View, Text, Button, Picker } from 'react-native';
+import { StyleSheet, View, Text, Picker } from 'react-native';
 import { connect } from 'react-redux'
-import { Spinner } from 'native-base';
+import { Spinner, Item, Button, Icon, Input } from 'native-base';
 
 import i18nActions from '../../redux/i18n'
 import FavoritesActions from '../../redux/favorites'
@@ -53,15 +52,25 @@ class HomeContainer extends React.Component {
   }
 
   /**
+   * languageChanged - description
    *
+   * @param  {type} changeLanguage description
+   * @param  {type} setParams      description
+   * @param  {type} newLang        description
+   * @return {type}                description
    */
-  _languageChanged = (changeLanguage, setParams) => (newLang) => {
+  languageChanged = (changeLanguage, setParams) => (newLang) => {
     changeLanguage(newLang)
     setParams({
       title: I18n.t('greeting', { locale: newLang })
     })
   }
 
+  /**
+   * render - description
+   *
+   * @return {type}  description
+   */
   render() {
     const { navigation, banner, language, changeLanguage } = this.props;
     const { setParams } = this.props.navigation;
@@ -73,15 +82,22 @@ class HomeContainer extends React.Component {
                      label={ I18n.translations[lang].id }
                      value={ lang } />)
     })
-    
+
     return (
       <View style={styles.container}>
+        <View style={styles.search}>
+          <Item searchBar rounded>
+            <Icon name="ios-search" />
+            <Input placeholder="Search" />
+            <Icon name="ios-people" />
+          </Item>
+        </View>
         <Text style={ styles.header }>
           { I18n.t('greeting') }
         </Text>
         <Picker style={ styles.picker }
                 selectedValue={ language }
-                onValueChange={ this._languageChanged(changeLanguage, setParams) }>
+                onValueChange={ this.languageChanged(changeLanguage, setParams) }>
           { languageOptions }
         </Picker>
         {events && events.length > 0 && <List items={events} navigation={navigation}/>}
@@ -92,9 +108,7 @@ class HomeContainer extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
     alignContent: 'flex-start',
-    flex: 1
   },
   header: {
     fontSize: 20,
@@ -107,6 +121,12 @@ const styles = StyleSheet.create({
     width: 100,
     marginRight: 10,
     justifyContent: 'flex-end'
+  },
+  search: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 15,
+    marginHorizontal: 15
   }
 });
 

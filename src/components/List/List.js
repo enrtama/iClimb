@@ -18,7 +18,7 @@ export default class ListItems extends React.Component {
      return (
        <List dataArray={items}
          renderRow={(item) =>
-           <ListItem key={item.id} onPress={() => navigation.push('EventItem', { id: item.id, title: item.title })}>
+           <ListItem key={item.id} onPress={() => navigation.push('EventItem', { id: item.id, title: item.title, event: item })}>
              <Thumbnail size={80} source={{ uri: item.thumbnail }} />
               <Body>
                 <Text>{item.title}</Text>

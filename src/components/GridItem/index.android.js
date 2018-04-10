@@ -23,9 +23,7 @@ export default class GridItem extends React.Component {
 
 const styles = StyleSheet.create({
   row: {
-    flex: 1,
     flexDirection: 'column',
-    flexGrow: 2,
     margin: 10,
     backgroundColor: 'white',
     alignItems: 'center',

@@ -10,6 +10,11 @@ export const User = t.struct({
   password: t.String
 });
 
+export const UserProfile = t.struct({
+  email: t.String,
+  displayName: t.String
+});
+
 export const ResetPassword = t.struct({
   email: t.String
 });
@@ -24,6 +29,10 @@ export const UserOptionsLogin = {
       secureTextEntry: true
     }
   }
+}
+
+export const UserOptionsEditProfile = {
+  auto: 'placeholders'
 }
 
 export const UserOptionsForgotPassword = {

@@ -4,7 +4,8 @@
 
 import React from 'react';
 import { connect } from 'react-redux'
-import { StyleSheet, ScrollView, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView, Text, View } from 'react-native';
+import { Button } from 'native-base';
 import { NavigationActions } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -13,14 +14,6 @@ import UserActions from '../../redux/user'
 import SidebarHeader from './sidebarheader.android'
 
 class SidebarContainer extends React.Component {
-
-  /**
-   * componentWillMount - description
-   *
-   * @return {type}  description
-   */
-  componentWillMount() {
-  }
 
   /**
    * navigateToScreen - description
@@ -42,6 +35,11 @@ class SidebarContainer extends React.Component {
     this.props.signout()
   }
 
+  /**
+   * render - description
+   *
+   * @return {type}  description
+   */
   render () {
     const { auth } = this.props;
     const { isAuthenticated, user } = auth;
@@ -51,42 +49,48 @@ class SidebarContainer extends React.Component {
         {isAuthenticated ?
         <ScrollView>
           <View>
-            <Text style={styles.sectionHeadingStyle}>Profile</Text>
-            <TouchableOpacity style={styles.navSectionStyle}>
+            <Button transparent block style={styles.navSectionStyle} onPress={this.navigateToScreen('Home')}>
+              <Ionicons
+                name={'ios-home'}
+                size={24}
+                style={styles.icon}/><Text style={styles.navItemStyle}>Home</Text>
+            </Button>
+            <Text style={styles.sectionHeadingStyle}>PROFILE</Text>
+            <Button transparent block style={styles.navSectionStyle} onPress={this.navigateToScreen('EditProfile')}>
               <Ionicons
                 name={'ios-settings'}
                 size={24}
-                style={styles.icon}/><Text style={styles.navItemStyle} onPress={this.navigateToScreen('')}>Edit profile</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.navSectionStyle}>
+                style={styles.icon}/><Text style={styles.navItemStyle}>Edit profile</Text>
+            </Button>
+            <Button transparent block style={styles.navSectionStyle} onPress={this.navigateToScreen('ResetPassword')}>
               <Ionicons
                 name={'ios-key'}
                 size={24}
-                style={styles.icon}/><Text style={styles.navItemStyle} onPress={this.navigateToScreen('ResetPassword')}>Reset Password</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.navSectionStyle}>
+                style={styles.icon}/><Text style={styles.navItemStyle}>Reset Password</Text>
+            </Button>
+            <Button transparent block style={styles.navSectionStyle} onPress={this.signout()}>
               <Ionicons
                 name={'ios-close-circle'}
                 size={24}
-                style={styles.icon}/><Text style={styles.navItemStyleSignout} onPress={this.signout()}>Sign out</Text>
-            </TouchableOpacity>
+                style={styles.icon}/><Text style={styles.navItemStyleSignout}>Sign out</Text>
+            </Button>
           </View>
         </ScrollView>
         :
         <ScrollView>
           <View>
-            <TouchableOpacity style={styles.navSectionStyle}>
+            <Button transparent block style={styles.navSectionStyle} onPress={this.navigateToScreen('Login')}>
               <Ionicons
                 name={'ios-lock'}
                 size={24}
-                style={styles.icon}/><Text style={styles.navItemStyle} onPress={this.navigateToScreen('Login')}>Login</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.navSectionStyle}>
+                style={styles.icon}/><Text style={styles.navItemStyleAuth}>Login</Text>
+            </Button>
+            <Button transparent block style={styles.navSectionStyle} onPress={this.navigateToScreen('Signup')}>
               <Ionicons
                 name={'ios-person-add'}
                 size={24}
-                style={styles.icon}/><Text style={styles.navItemStyle} onPress={this.navigateToScreen('Signup')}>Sign up</Text>
-            </TouchableOpacity>
+                style={styles.icon}/><Text style={styles.navItemStyleAuth}>Sign up</Text>
+            </Button>
           </View>
         </ScrollView>
         }
@@ -105,6 +109,12 @@ const styles = StyleSheet.create({
     color: '#4f4f4f',
     fontWeight: 'bold'
   },
+  navItemStyleAuth: {
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    color: '#4f4f4f',
+    fontWeight: 'bold'
+  },
   navItemStyleSignout: {
     padding: 10,
     color: '#e91e63',
@@ -114,15 +124,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingLeft: 15,
+    paddingLeft: 15
   },
   sectionHeadingStyle: {
     paddingVertical: 20,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
+    fontSize: 15,
+    fontWeight: 'bold'
   },
   icon: {
     color: 'black',
-    width: 25
+    width: 45,
+    paddingHorizontal: 10
   },
   footerContainer: {
     padding: 15

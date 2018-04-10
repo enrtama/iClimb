@@ -6,7 +6,7 @@
 import React from 'react';
 import { StyleSheet, View, Dimensions } from 'react-native';
 import { connect } from 'react-redux'
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
 import PlacesActions from '../../redux/places'
 
@@ -50,6 +50,7 @@ class PlacesContainer extends React.Component {
     return (
       <View style={styles.container}>
         <MapView style={styles.map}
+          provider={PROVIDER_GOOGLE}
           initialRegion={{
             latitude: 52.383477,
             longitude: 4.929267,

@@ -3,9 +3,11 @@
  *
  */
 
+import firebase from 'firebase';
 import { put, call } from 'redux-saga/effects'
 import { UserTypes } from '../redux/user'
 import { reduxSagaFirebase } from '../config/firebase'
+import { NavigationActions } from 'react-navigation';
 
 /**
  * export function - description
@@ -68,7 +70,6 @@ export function* resetPassword(action) {
   }
 }
 
-
 /**
  * export function - description
  *
@@ -82,5 +83,25 @@ export function* signout(action) {
   } catch(error) {
     alert(error.message)
     yield put({type: UserTypes.SIGNUP_FAILED, error: error.message});
+  }
+}
+
+export function* saveAvatar(action) {
+  const { avatar } = action
+  try {
+
+    const user = firebase.auth().currentUser;
+    user.updateProfile({
+      photoURL: 'https://picsum.photos/200'
+    }).then(function(result) {
+      console.log(result);
+    }).catch(function(error) {
+      console.log(error);
+    });
+
+    yield put({type: UserTypes.SAVE_AVATAR_SUCCEEDED, avatar});
+  } catch(error) {
+    alert(error.message)
+    yield put({type: UserTypes.SAVE_AVATAR_FAILED, error: error.message});
   }
 }

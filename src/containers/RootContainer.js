@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import firebase from 'firebase';
 
 import StartupActions from '../redux/startup'
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { Spinner, Root } from 'native-base';
 
 import HomeScreen from '../containers/Home/index.android'
