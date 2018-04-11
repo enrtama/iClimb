@@ -5,7 +5,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, Picker } from 'react-native';
 import { connect } from 'react-redux'
-import { Spinner, Item, Button, Icon, Input } from 'native-base';
+import { Container, Content, Spinner } from 'native-base';
 
 import i18nActions from '../../redux/i18n'
 import FavoritesActions from '../../redux/favorites'
@@ -13,7 +13,9 @@ import FavoritesActions from '../../redux/favorites'
 import { database } from '../../config/firebase'
 
 import I18n from '../../i18n/index';
-import List from '../../components/List/List';
+import List from '../../components/List/index.android';
+import GooglePlacesSearch from '../../components/GooglePlacesSearch/index.android';
+import SpinnerLoader from '../../components/SpinnerLoader/index.android'
 
 class HomeContainer extends React.Component {
 
@@ -36,7 +38,6 @@ class HomeContainer extends React.Component {
    * @return {type}  description
    */
   async componentWillMount() {
-    this.props.getEvents()
     await I18n.initAsync();
   }
 
@@ -85,22 +86,10 @@ class HomeContainer extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.search}>
-          <Item searchBar rounded>
-            <Icon name="ios-search" />
-            <Input placeholder="Search" />
-            <Icon name="ios-people" />
-          </Item>
+        <GooglePlacesSearch getEvents={this.props.getEvents}/>
+        <View style={styles.list}>
+         {(events && events.length > 0) ? <List items={events} navigation={navigation}/> : <SpinnerLoader />}
         </View>
-        <Text style={ styles.header }>
-          { I18n.t('greeting') }
-        </Text>
-        <Picker style={ styles.picker }
-                selectedValue={ language }
-                onValueChange={ this.languageChanged(changeLanguage, setParams) }>
-          { languageOptions }
-        </Picker>
-        {events && events.length > 0 && <List items={events} navigation={navigation}/>}
       </View>
     )
   }
@@ -108,7 +97,8 @@ class HomeContainer extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignContent: 'flex-start',
+    flexDirection: 'column',
+    justifyContent: 'flex-start'
   },
   header: {
     fontSize: 20,
@@ -116,11 +106,9 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginLeft: 10,
   },
-  picker: {
-    flex: 1,
-    width: 100,
-    marginRight: 10,
-    justifyContent: 'flex-end'
+  list: {
+    marginVertical: 40,
+    alignItems: 'stretch'
   },
   search: {
     alignItems: 'center',
@@ -139,7 +127,7 @@ const mapStateToProps = (state) => {
 
 const mapStateToDispatch = dispatch => ({
   changeLanguage: (newLang) => dispatch(i18nActions.changeLanguage(newLang)),
-  getEvents: () => dispatch(FavoritesActions.getEvents())
+  getEvents: (data) => dispatch(FavoritesActions.getEvents(data))
 })
 
 export default connect(mapStateToProps, mapStateToDispatch)(HomeContainer)

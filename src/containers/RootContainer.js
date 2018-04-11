@@ -9,10 +9,11 @@ import firebase from 'firebase';
 
 import StartupActions from '../redux/startup'
 import { StyleSheet, View, Text } from 'react-native';
-import { Spinner, Root } from 'native-base';
+import { Root } from 'native-base';
 
 import HomeScreen from '../containers/Home/index.android'
 import Navigation from '../components/Navigation/index.android'
+import SpinnerLoader from '../components/SpinnerLoader/index.android'
 
 class RootContainer extends React.Component {
   state = {
@@ -34,7 +35,7 @@ class RootContainer extends React.Component {
 
   render() {
     if (!this.state.fontLoaded) {
-      return <View style={styles.spinner}><Spinner /></View>
+      return <SpinnerLoader />
     }
     return (
       <View style={styles.container}>
@@ -49,12 +50,6 @@ class RootContainer extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
-  },
-  spinner: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
   }
 })
 
