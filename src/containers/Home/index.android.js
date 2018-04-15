@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   list: {
-    marginVertical: 40,
+    marginVertical: 50,
     alignItems: 'stretch'
   },
   search: {

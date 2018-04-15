@@ -5,6 +5,7 @@
 
 import React from 'react'
 import { ImagePicker } from 'expo'
+import { RNS3 } from 'react-native-aws3'
 import { Content, Container, Button, Thumbnail } from 'native-base'
 import { StyleSheet, View, Text } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -12,6 +13,7 @@ import { connect } from 'react-redux'
 import t from 'tcomb-form-native'
 
 import UserActions from '../../redux/user'
+import { AWS } from '../../constants'
 
 // Model
 import { UserProfile, UserOptionsEditProfile } from '../../models/User'
@@ -27,7 +29,7 @@ class EditProfileContainer extends React.Component {
    */
   constructor(props) {
     super(props);
-    this.state = { image: null, value: props.auth.user }
+    this.state = { image: null, user: props.auth.user }
     this.saveProfile = this.saveProfile.bind(this)
     this.onChange = this.onChange.bind(this)
   }
@@ -40,7 +42,7 @@ class EditProfileContainer extends React.Component {
   saveProfile() {
     // Use that ref to get the form value
     const user = this._form.getValue();
-    console.log(user)
+    // console.log(user)
     //user && this.props.saveProfile(user)
   }
 
@@ -74,8 +76,22 @@ class EditProfileContainer extends React.Component {
     });
 
     if (!result.cancelled) {
-      this.setState({ image: result.uri });
-      this.props.saveAvatar(result.uri)
+      const extension = result.uri.split('.').pop();
+      const randomString = "_" + Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
+      const file = {
+        uri: result.uri,
+        name: this.state.user.displayName + randomString + '.' + extension,
+        type: result.type + '/' + extension
+      }
+      RNS3.put(file, AWS).then(response => {
+        if (response.status !== 201)
+          throw new Error("Failed to upload image to S3");
+        const avatar = response.body.postResponse.location
+        this.setState({ image: avatar });
+        this.props.saveAvatar(avatar)
+      }).catch(error => {
+        alert(error)
+      })
     }
   }
 
@@ -85,9 +101,8 @@ class EditProfileContainer extends React.Component {
    * @return {type}  description
    */
   render() {
-    const { image, value } = this.state
+    const { image, user } = this.state
     const { auth } = this.props;
-    const { user } = auth;
 
     const loadImage = image ? image : (user && user.avatar)
 
@@ -98,7 +113,7 @@ class EditProfileContainer extends React.Component {
             ref={c => this._form = c}
             type={UserProfile}
             options={UserOptionsEditProfile}
-            value={value}
+            value={user}
             onChange={this.onChange} />
             <View style={styles.avatarContainer}>
               <Thumbnail large source={{uri: loadImage}} />
@@ -142,7 +157,7 @@ const mapStateToProps = (state) => {
 
 const mapStateToDispatch = dispatch => ({
   saveProfile: (user) => dispatch(UserActions.saveProfile(user)),
-  saveAvatar: (url) => dispatch(UserActions.saveAvatar(url))
+  saveAvatar: (avatarUrl) => dispatch(UserActions.saveAvatar(avatarUrl))
 })
 
 export default connect(mapStateToProps, mapStateToDispatch)(EditProfileContainer)

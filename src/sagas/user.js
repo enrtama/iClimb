@@ -89,16 +89,14 @@ export function* signout(action) {
 export function* saveAvatar(action) {
   const { avatar } = action
   try {
-
     const user = firebase.auth().currentUser;
     user.updateProfile({
-      photoURL: 'https://picsum.photos/200'
+      photoURL: avatar
     }).then(function(result) {
       console.log(result);
     }).catch(function(error) {
       console.log(error);
     });
-
     yield put({type: UserTypes.SAVE_AVATAR_SUCCEEDED, avatar});
   } catch(error) {
     alert(error.message)

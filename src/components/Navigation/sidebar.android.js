@@ -42,10 +42,11 @@ class SidebarContainer extends React.Component {
    */
   render () {
     const { auth } = this.props;
-    const { isAuthenticated, user } = auth;
+    const { isAuthenticated, user, avatar } = auth;
+
     return (
       <View style={styles.container}>
-        <SidebarHeader user={user} isAuthenticated={isAuthenticated}/>
+        <SidebarHeader user={user} avatar={avatar} isAuthenticated={isAuthenticated}/>
         {isAuthenticated ?
         <ScrollView>
           <View>

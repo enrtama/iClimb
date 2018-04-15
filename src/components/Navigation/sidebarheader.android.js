@@ -12,15 +12,17 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 class SidebarHeader extends React.Component {
   render () {
-    const { user, isAuthenticated } = this.props;
+    const { user, isAuthenticated, avatar } = this.props;
     return (
       <View style={styles.container}>
         {isAuthenticated && user ?
-        <View style={styles.userInfo}>
+        <View style={styles.userInfoWrapper}>
           <Image style={styles.backgroundImage} source={require('../../../assets/bouldering-bg.png')} />
-          <Thumbnail large style={styles.thumbnail} source={{uri: user.avatar}} />
-          <Text style={styles.email}>{user.email}</Text>
-          <Text style={styles.username}>{user.displayName}</Text>
+          <Thumbnail large style={styles.thumbnail} source={{uri: avatar || user.avatar}} />
+          <View style={styles.userInfo}>
+            <Text style={styles.email}>{user.email}</Text>
+            <Text style={styles.username}>{user.displayName}</Text>
+          </View>
         </View>
         :
         <View style={styles.userNoAuth}>
@@ -50,12 +52,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   userNoAuth: {
-    padding: 20
+    margin: 20
+  },
+  userInfoWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   userInfo: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 20
+    paddingVertical: 10,
+    paddingHorizontal: 45,
+    backgroundColor: 'rgba(170,170,170,0.5)'
   },
   email: {
     textAlign: 'center',

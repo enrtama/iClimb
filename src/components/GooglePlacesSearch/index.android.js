@@ -10,7 +10,7 @@ const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818
 const GooglePlacesInput = (props) => {
   return (
     <GooglePlacesAutocomplete
-      placeholder='Search'
+      placeholder='Search for a city'
       minLength={2} // minimum length of text to search
       autoFocus={false}
       returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
@@ -33,7 +33,12 @@ const GooglePlacesInput = (props) => {
     styles={{
       textInputContainer: {
         backgroundColor: 'white',
-        width: '100%'
+        width: '100%',
+        height: 50
+      },
+      textInput: {
+        height: 35,
+        fontSize: 18
       },
       description: {
         fontWeight: 'bold'
@@ -43,7 +48,7 @@ const GooglePlacesInput = (props) => {
       },
       listView: {
         position: 'absolute',
-        top: 40,
+        top: 50,
         backgroundColor: 'white',
         zIndex: 3
       }
@@ -74,8 +79,8 @@ const styles = StyleSheet.create({
   icon: {
     color: 'black',
     width: 45,
-    paddingLeft: 10,
-    paddingTop: 5,
+    paddingLeft: 15,
+    paddingTop: 10,
   }
 })
 

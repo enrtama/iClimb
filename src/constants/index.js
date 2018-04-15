@@ -12,6 +12,16 @@ export const FIREBASE = {
   MESSAGING_SENDER_ID: "551491836163"
 }
 
+export const AWS = {
+  keyPrefix: "avatars/",
+  bucket: "react-native-iclimb",
+  region: "eu-west-1",
+  awsUrl: "s3.eu-west-1.amazonaws.com",
+  accessKey: "AKIAI3VLYAFZHATMVKTA",
+  secretKey: "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",
+  successActionStatus: 201
+}
+
 export const SPORT_MODALITY = {
   INDOOR_BOULDERING: "INDOOR_BOULDERING",
   OUTDOOR_BOULDERING: "OUTDOOR_BOULDERING",

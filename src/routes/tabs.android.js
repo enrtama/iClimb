@@ -179,6 +179,7 @@ const MenuTabs = TabNavigator(
     }
   },
   {
+    initialRouteName: 'Home',
     lazy: true,
     removeClippedSubviews: true,
     tabBarPosition: 'bottom',

@@ -32,6 +32,7 @@ export default Creators
 
 /* ------------- Initial State ------------- */
 export const INITIAL_STATE = Immutable({
+  avatar: null,
   user: null,
   isAuthenticated: false,
   error: null
@@ -86,9 +87,7 @@ export const resetPasswordFailed = (state, {error}) => state.merge({
   error
 })
 
-export const saveAvatar = (state, {avatar}) => state.merge({
-  avatar
-})
+export const saveAvatar = (state, {avatar}) => state
 
 export const saveAvatarSucceeded = (state, {avatar}) => state.merge({
   avatar
