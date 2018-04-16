@@ -5,7 +5,8 @@
 import React from 'react';
 import { StyleSheet, View, Text, Picker } from 'react-native';
 import { connect } from 'react-redux'
-import { Container, Content, Spinner } from 'native-base';
+import { Container, Content, Spinner, Fab } from 'native-base';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import i18nActions from '../../redux/i18n'
 import FavoritesActions from '../../redux/favorites'
@@ -27,9 +28,7 @@ class HomeContainer extends React.Component {
    */
   constructor(props) {
     super(props)
-    this.state = {
-      events: []
-    }
+    this.state = { events: [] }
   }
 
   /**
@@ -90,6 +89,15 @@ class HomeContainer extends React.Component {
         <View style={styles.list}>
          {(events && events.length > 0) ? <List items={events} navigation={navigation}/> : <SpinnerLoader />}
         </View>
+        <Fab
+          active={false}
+          direction="up"
+          style={styles.fab}
+          containerStyle={{bottom: 20}}
+          position="bottomRight"
+          onPress={() => this.props.navigation.navigate('AddEvent')}>
+          <Ionicons name="ios-add" />
+        </Fab>
       </View>
     )
   }
@@ -115,8 +123,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginVertical: 15,
     marginHorizontal: 15
+  },
+  fab: {
+    flex: 1,
+    position: 'absolute',
+    zIndex: 3
   }
-});
+})
 
 const mapStateToProps = (state) => {
   return {

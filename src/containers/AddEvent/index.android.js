@@ -10,15 +10,15 @@ import { StyleSheet, View, Text } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { connect } from 'react-redux'
 import t from 'tcomb-form-native'
-import { uploadImage } from '../../utils/aws'
+import { uploadImageEvent } from '../../utils/aws'
 
-import UserActions from '../../redux/user'
+import FavoritesActions from '../../redux/favorites'
 
 // Model
-import { UserProfile, UserOptionsEditProfile } from '../../models/User'
+import { AddEvent, AddEventOptions } from '../../models/Event'
 const Form = t.form.Form;
 
-class EditProfileContainer extends React.Component {
+class AddEventContainer extends React.Component {
 
   /**
    * constructor - description
@@ -28,21 +28,20 @@ class EditProfileContainer extends React.Component {
    */
   constructor(props) {
     super(props);
-    this.state = { image: null, user: props.auth.user }
-    this.saveProfile = this.saveProfile.bind(this)
+    this.state = { image: null, event: null }
+    this.addEvent = this.addEvent.bind(this)
     this.onChange = this.onChange.bind(this)
   }
 
   /**
-   * saveProfile - description
+   * addEvent - description
    *
    * @return {type}  description
    */
-  saveProfile() {
-    // Use that ref to get the form value
-    const user = this._form.getValue();
-    // console.log(user)
-    //user && this.props.saveProfile(user)
+  addEvent() {
+    const event = this._form.getValue();
+    console.log(this.state)
+    //event && this.props.addEvent(user)
   }
 
   /**
@@ -52,7 +51,7 @@ class EditProfileContainer extends React.Component {
    * @return {type}       description
    */
   onChange(value) {
-    this.setState({user: value});
+    this.setState({event: value});
   }
 
   /**
@@ -61,7 +60,7 @@ class EditProfileContainer extends React.Component {
    * @return {type}  description
    */
   renderSaveButton() {
-    return <Button rounded block style={styles.button} onPress={this.saveProfile}><Text style={styles.textButton}>Save</Text></Button>
+    return <Button rounded block style={styles.button} onPress={this.addEvent}><Text style={styles.textButton}>Add</Text></Button>
   }
 
   /**
@@ -76,18 +75,17 @@ class EditProfileContainer extends React.Component {
 
     if (!result.cancelled) {
       const extension = result.uri.split('.').pop();
-      const randomString = "_" + Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
+      const randomString = "event_" + Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
       const file = {
         uri: result.uri,
-        name: this.state.user.displayName + randomString + '.' + extension,
+        name: randomString + '.' + extension,
         type: result.type + '/' + extension
       }
-      uploadAvatar(file).then(response => {
+      uploadImageEvent(file).then(response => {
         if (response.status !== 201)
           throw new Error("Failed to upload image to S3");
-        const avatar = response.body.postResponse.location
-        this.setState({ image: avatar });
-        this.props.saveAvatar(avatar)
+        const eventImage = response.body.postResponse.location
+        this.setState({ image: eventImage });
       }).catch(error => alert(error))
     }
   }
@@ -98,23 +96,20 @@ class EditProfileContainer extends React.Component {
    * @return {type}  description
    */
   render() {
-    const { image, user } = this.state
-    const { auth } = this.props;
-
-    const loadImage = image ? image : (user && user.avatar)
+    const { image, event } = this.state
 
     return (
       <Container style={styles.container}>
         <Content>
           <Form
             ref={c => this._form = c}
-            type={UserProfile}
-            options={UserOptionsEditProfile}
-            value={user}
+            type={AddEvent}
+            options={AddEventOptions}
+            value={event}
             onChange={this.onChange} />
-            <View style={styles.avatarContainer}>
-              <Thumbnail large source={{uri: loadImage}} />
-              <Button rounded info style={styles.button} onPress={this._pickImage}><Text style={styles.textButton}>Pick an avatar</Text></Button>
+            <View style={styles.imageContainer}>
+              <Thumbnail large square source={{uri: image}} style={styles.thumbnail}/>
+              <Button rounded info style={styles.button} onPress={this._pickImage}><Text style={styles.textButton}>Select an image</Text></Button>
             </View>
             <View>
               {this.renderSaveButton()}
@@ -139,10 +134,14 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16
   },
-  avatarContainer: {
+  imageContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  thumbnail: {
+    width: 260,
+    height: 260
   }
 })
 
@@ -153,8 +152,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapStateToDispatch = dispatch => ({
-  saveProfile: (user) => dispatch(UserActions.saveProfile(user)),
-  saveAvatar: (avatarUrl) => dispatch(UserActions.saveAvatar(avatarUrl))
+  addEvent: (event) => dispatch(FavoritesActions.addEvent(event)),
 })
 
-export default connect(mapStateToProps, mapStateToDispatch)(EditProfileContainer)
+export default connect(mapStateToProps, mapStateToDispatch)(AddEventContainer)

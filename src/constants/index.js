@@ -3,6 +3,8 @@
  * Constants
  */
 
+import aws from "../../aws.json"
+
 export const FIREBASE = {
   API_KEY: "AIzaSyAe5UO9EGXxJEluCtkiEVq0pxpEImRF6n0",
   AUTH_DOMAIN: "iclimb-396ef.firebaseapp.com",
@@ -12,13 +14,23 @@ export const FIREBASE = {
   MESSAGING_SENDER_ID: "551491836163"
 }
 
-export const AWS = {
+export const AWS_AVATARS = {
   keyPrefix: "avatars/",
   bucket: "react-native-iclimb",
   region: "eu-west-1",
   awsUrl: "s3.eu-west-1.amazonaws.com",
-  accessKey: "AKIAI3VLYAFZHATMVKTA",
-  secretKey: "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",
+  accessKey: aws.accessKey,
+  secretKey: aws.secretKey,
+  successActionStatus: 201
+}
+
+export const AWS_EVENTS = {
+  keyPrefix: "events/",
+  bucket: "react-native-iclimb",
+  region: "eu-west-1",
+  awsUrl: "s3.eu-west-1.amazonaws.com",
+  accessKey: aws.accessKey,
+  secretKey: aws.secretKey,
   successActionStatus: 201
 }
 

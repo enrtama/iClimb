@@ -14,6 +14,7 @@ import ChatContainer from '../containers/Chat/index.android'
 import FavoritesContainer from '../containers/Favorites/index.android'
 import PlacesContainer from '../containers/Places/index.android'
 import EventContainer from '../containers/Event/index.android'
+import AddEventContainer from '../containers/AddEvent/index.android'
 
 const MyHomeContainer = ({ navigation }) => (
   <HomeContainer banner={'Home'} navigation={navigation} />
@@ -35,6 +36,10 @@ const MyEventContainer = ({ navigation }) => (
   <EventContainer banner={'Event'} navigation={navigation} />
 )
 
+const MyAddEventContainer = ({ navigation }) => (
+  <AddEventContainer banner={'Add Event'} navigation={navigation} />
+)
+
 const MainStack = StackNavigator({
   Home: {
     screen: MyHomeContainer,
@@ -48,6 +53,13 @@ const MainStack = StackNavigator({
     path: '/event/:id',
     navigationOptions: ({navigation}) => ({
       title: `${navigation.state.params.title}`
+    })
+  },
+  AddEvent: {
+    screen: MyAddEventContainer,
+    path: '/event/new',
+    navigationOptions: ({navigation}) => ({
+      title: 'Add event'
     })
   }
 }, {
