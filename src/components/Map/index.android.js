@@ -26,14 +26,14 @@ export default class Map extends React.Component {
       <MapView style={styles.map}
         provider={PROVIDER_GOOGLE}
         initialRegion={{
-          latitude: item.coordinate.latitude,
-          longitude: item.coordinate.longitude,
+          latitude: item.geocode.latitude,
+          longitude: item.geocode.longitude,
           latitudeDelta: 0.0992,
           longitudeDelta: 0.0491
         }}>
           <Marker
             key={item.id}
-            coordinate={item.coordinate}
+            coordinate={item.geocode}
             title={item.title}
             description={item.description}
             image={require('../../../assets/shoe-pin.png')}>
@@ -48,7 +48,7 @@ export default class Map extends React.Component {
 
 Map.propTypes = {
   item: PropTypes.object,
-  item: PropTypes.func.isRequired
+  item: PropTypes.object.isRequired
 }
 
 const styles = StyleSheet.create({

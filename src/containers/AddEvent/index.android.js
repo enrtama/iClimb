@@ -11,6 +11,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { connect } from 'react-redux'
 import t from 'tcomb-form-native'
 import { uploadImageEvent } from '../../utils/aws'
+import GooglePlacesSearch from '../../components/GooglePlacesSearch/index.android'
 
 import FavoritesActions from '../../redux/favorites'
 
@@ -28,9 +29,16 @@ class AddEventContainer extends React.Component {
    */
   constructor(props) {
     super(props);
-    this.state = { image: null, event: null }
+    this.state = {
+      image: null,
+      event: null,
+      location: null,
+      geocode: null,
+      placeId: null
+    }
     this.addEvent = this.addEvent.bind(this)
     this.onChange = this.onChange.bind(this)
+    this.setLocation = this.setLocation.bind(this)
   }
 
   /**
@@ -39,9 +47,18 @@ class AddEventContainer extends React.Component {
    * @return {type}  description
    */
   addEvent() {
-    const event = this._form.getValue();
-    console.log(this.state)
-    //event && this.props.addEvent(user)
+    const { event, location, geocode, placeId, image } = this.state
+    const newEvent = {
+      title: event.title,
+      description: event.description,
+      date: event.date.toString(),
+      thumbnail: image,
+      location: location,
+      geocode: {latitude: geocode.lat, longitude: geocode.lng},
+      placeId: placeId,
+      userId: this.props.auth.user.email
+    }
+    this.props.addEvent(newEvent)
   }
 
   /**
@@ -55,6 +72,16 @@ class AddEventContainer extends React.Component {
   }
 
   /**
+   * setLocation - description
+   *
+   * @param  {type} value description
+   * @return {type}       description
+   */
+  setLocation(location, geocode) {
+    this.setState({location: location.description, geocode: geocode, placeId: location.id});
+  }
+
+  /**
    * renderSaveButton - description
    *
    * @return {type}  description
@@ -64,9 +91,11 @@ class AddEventContainer extends React.Component {
   }
 
   /**
+   * pickImage - description
    *
+   * @return {type}  description
    */
-  _pickImage = async () => {
+  pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [4, 3],
@@ -101,6 +130,7 @@ class AddEventContainer extends React.Component {
     return (
       <Container style={styles.container}>
         <Content>
+          <GooglePlacesSearch callback={this.setLocation} title="Select a location" currentLocation={false} range="address"/>
           <Form
             ref={c => this._form = c}
             type={AddEvent}
@@ -109,7 +139,7 @@ class AddEventContainer extends React.Component {
             onChange={this.onChange} />
             <View style={styles.imageContainer}>
               <Thumbnail large square source={{uri: image}} style={styles.thumbnail}/>
-              <Button rounded info style={styles.button} onPress={this._pickImage}><Text style={styles.textButton}>Select an image</Text></Button>
+              <Button rounded info style={styles.button} onPress={this.pickImage}><Text style={styles.textButton}>Select an image</Text></Button>
             </View>
             <View>
               {this.renderSaveButton()}
@@ -124,7 +154,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     marginTop: 25,
-    padding: 20
+    padding: 10
   },
   button: {
     padding: 10,
@@ -140,8 +170,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   thumbnail: {
-    width: 260,
-    height: 260
+    width: 200,
+    height: 150
   }
 })
 

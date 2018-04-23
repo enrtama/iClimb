@@ -133,7 +133,7 @@ const PlacesStack = StackNavigator({
 
 const MenuTabs = TabNavigator(
   {
-    Home: {
+    HomeTab: {
       screen: MainStack,
       path: '',
       navigationOptions: {
@@ -147,7 +147,7 @@ const MenuTabs = TabNavigator(
         )
       }
     },
-    Chat: {
+    ChatTab: {
       screen: ChatStack,
       path: 'chat',
       navigationOptions: {
@@ -161,7 +161,7 @@ const MenuTabs = TabNavigator(
         )
       }
     },
-    Favorites: {
+    FavoritesTab: {
       screen: FavoritesStack,
       path: 'favorites',
       navigationOptions: {
@@ -175,7 +175,7 @@ const MenuTabs = TabNavigator(
         )
       }
     },
-    Places: {
+    PlacesTab: {
       screen: PlacesStack,
       path: 'places',
       navigationOptions: {
@@ -191,7 +191,7 @@ const MenuTabs = TabNavigator(
     }
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'HomeTab',
     lazy: true,
     removeClippedSubviews: true,
     tabBarPosition: 'bottom',

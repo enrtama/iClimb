@@ -53,7 +53,7 @@ class LoginContainer extends React.Component {
     const { navigate } = nextProps.navigation;
     if (nextProps.auth.isAuthenticated) {
       // Go to Home if the user has logged in successfully
-      navigate('Home')
+      navigate('HomeTab')
     }
   }
 

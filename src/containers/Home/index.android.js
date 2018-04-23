@@ -2,20 +2,18 @@
  *
  */
 
-import React from 'react';
-import { StyleSheet, View, Text, Picker } from 'react-native';
+import React from 'react'
+import { StyleSheet, View, Text, Picker } from 'react-native'
 import { connect } from 'react-redux'
-import { Container, Content, Spinner, Fab } from 'native-base';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Container, Content, Spinner, Fab } from 'native-base'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import i18nActions from '../../redux/i18n'
 import FavoritesActions from '../../redux/favorites'
 
-import { database } from '../../config/firebase'
-
-import I18n from '../../i18n/index';
-import List from '../../components/List/index.android';
-import GooglePlacesSearch from '../../components/GooglePlacesSearch/index.android';
+import I18n from '../../i18n/index'
+import List from '../../components/List/index.android'
+import GooglePlacesSearch from '../../components/GooglePlacesSearch/index.android'
 import SpinnerLoader from '../../components/SpinnerLoader/index.android'
 
 class HomeContainer extends React.Component {
@@ -85,9 +83,9 @@ class HomeContainer extends React.Component {
 
     return (
       <View style={styles.container}>
-        <GooglePlacesSearch getEvents={this.props.getEvents}/>
+        <GooglePlacesSearch callback={this.props.getEvents} title="Search for a city" currentLocation={true} range="(cities)"/>
         <View style={styles.list}>
-         {(events && events.length > 0) ? <List items={events} navigation={navigation}/> : <SpinnerLoader />}
+         {(events && events.length > 0) && <List items={events} navigation={navigation}/>}
         </View>
         <Fab
           active={false}

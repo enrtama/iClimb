@@ -12,7 +12,7 @@ const EVENTS = [
     "thumbnail": "http://www.mwv-icefest.com/wp-content/uploads/La-Sportiva.jpg",
     "location": "Aambeeldstraat 26, 1021 KB Amsterdam",
     "date": "April 15, 2018",
-    "coordinate": {
+    "geocode": {
       "latitude": 52.383477,
       "longitude": 4.929267
     }
@@ -23,7 +23,7 @@ const EVENTS = [
     "thumbnail": "https://www.worldcupkranj.com/logo.png",
     "location": "Dijksgracht 2, 1019 BS Amsterdam",
     "date": "December 18, 2018",
-    "coordinate": {
+    "geocode": {
       "latitude": 52.3921756,
       "longitude": 4.8493444
     }
@@ -34,7 +34,7 @@ const EVENTS = [
     "thumbnail": "http://www.rawmotion.com/main/wp-content/uploads/2015/06/adidas_rockstars_logo.png",
     "location": "Transformatorweg 32, 1014 Amsterdam",
     "date": "July 04, 2018",
-    "coordinate": {
+    "geocode": {
       "latitude": 52.3764564,
       "longitude": 4.9090293
     }
