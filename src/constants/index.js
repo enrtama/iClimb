@@ -53,6 +53,6 @@ export const TEXTAREA_LINES = 5
 export const KEYS_TO_FILTERS = ['title', 'description']
 
 export const MAP_DEFAULT = {
-  LATITUDE: 52.383477,
-  LONGITUDE: 4.929267
+  LATITUDE: 52.3791283,
+  LONGITUDE: 4.900272
 }

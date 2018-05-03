@@ -6,14 +6,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { StyleSheet, View, Text } from 'react-native'
-import SearchInput, { createFilter } from 'react-native-search-filter'
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { createFilter } from 'react-native-search-filter'
 import { KEYS_TO_FILTERS } from '../../constants'
 
 import FavoritesActions from '../../redux/favorites'
 
 import List from '../../components/List/index.android'
-
+import Search from '../../components/Search/index.android'
 
 class FavoritesFilterContainer extends React.Component {
 
@@ -60,15 +59,7 @@ class FavoritesFilterContainer extends React.Component {
     const eventsFilteredSearch = eventsFiltered.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
     return (
       <View style={styles.container}>
-        <SearchInput
-          onChangeText={(term) => { this.searchUpdated(term) }}
-          style={styles.searchInput}
-          placeholder="Search..."
-          fuzzy={true}
-          clearIcon={<Ionicons
-            name={'ios-close'}
-            size={32}
-            style={styles.clearIcon}/>}/>
+        <Search callback={this.searchUpdated.bind(this)} />
         {(eventsFiltered && eventsFiltered.length > 0) && <List items={eventsFilteredSearch} navigation={navigation}/>}
       </View>
     )
@@ -79,17 +70,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'flex-start'
-  },
-  searchInput:{
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    backgroundColor: 'white',
-    borderColor: '#CCC',
-    borderWidth: 1
-  },
-  clearIcon: {
-    marginTop: -8,
-    color:'black'
   }
 })
 

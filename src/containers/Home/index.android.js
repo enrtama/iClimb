@@ -19,15 +19,14 @@ import SpinnerLoader from '../../components/SpinnerLoader/index.android'
 
 class HomeContainer extends React.Component {
 
-  /**
-   * constructor - description
-   *
-   * @param  {type} props description
-   * @return {type}       description
-   */
-  constructor(props) {
-    super(props)
-    this.state = { events: [], markers: [] }
+  state = {
+    events: [],
+    markers: [],
+    coordinates: {
+      lat: MAP_DEFAULT.LATITUDE,
+      lng: MAP_DEFAULT.LONGITUDE
+    },
+    locationId: null
   }
 
   /**
@@ -48,7 +47,15 @@ class HomeContainer extends React.Component {
    */
   componentWillReceiveProps(nextProps) {
     const { events } = nextProps;
-    this.setState({events})
+    const markers = events.map((event,key) => {
+      return {
+        id: event.key,
+        title: event.title,
+        description: event.description,
+        coordinate: event.geocode
+      }
+    })
+    this.setState({events, markers})
   }
 
   /**
@@ -67,6 +74,16 @@ class HomeContainer extends React.Component {
   }
 
   /**
+   * setLocation - description
+   *
+   * @param  {type} value description
+   * @return {type}       description
+   */
+  setLocation(location, geocode) {
+    this.setState({coordinates: geocode, locationId: location.id});
+  }
+
+  /**
    * render - description
    *
    * @return {type}  description
@@ -74,7 +91,7 @@ class HomeContainer extends React.Component {
   render() {
     const { navigation, banner, language, changeLanguage } = this.props;
     const { setParams } = this.props.navigation;
-    const { events, markers } = this.state;
+    const { events, markers, coordinates } = this.state;
 
     const languageOptions = Object.keys(I18n.translations).map((lang, i) => {
       return (
@@ -83,9 +100,11 @@ class HomeContainer extends React.Component {
                      value={ lang } />)
     })
 
+    console.log(coordinates);
+
     return (
       <View style={styles.container}>
-        <GooglePlacesSearch callback={false} title="Search for a city..." currentLocation={true} range="(cities)"/>
+        <GooglePlacesSearch callback={this.setLocation.bind(this)} title="Search for a city..." currentLocation={true} range="(cities)"/>
         <Fab
           active={false}
           direction="up"
@@ -102,8 +121,14 @@ class HomeContainer extends React.Component {
           initialRegion={{
             latitude: MAP_DEFAULT.LATITUDE,
             longitude: MAP_DEFAULT.LONGITUDE,
-            latitudeDelta: 0.0992,
-            longitudeDelta: 0.0491
+            latitudeDelta: 0.1000,
+            longitudeDelta: 0.0591
+          }}
+          region={{
+            latitude: coordinates.lat,
+            longitude: coordinates.lng,
+            latitudeDelta: 0.1000,
+            longitudeDelta: 0.0591
           }}>
           {markers && markers.length > 0 && this.state.markers.map(marker => (
             <Marker

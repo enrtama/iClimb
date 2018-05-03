@@ -140,7 +140,7 @@ const Drawer = DrawerNavigator(
   {
     Home: { screen: MenuTabs },
     Login: { screen: LoginStack },
-    EditProfileStack: { screen: EditProfileStack },
+    EditProfile: { screen: EditProfileStack },
     ResetPassword: { screen: ResetPasswordStack }
   },
   {

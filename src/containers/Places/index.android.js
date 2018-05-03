@@ -5,14 +5,18 @@
 
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { createFilter } from 'react-native-search-filter'
+import { KEYS_TO_FILTERS } from '../../constants'
 import { connect } from 'react-redux'
-import List from '../../components/List/index.android'
 
 import FavoritesActions from '../../redux/favorites'
 
+import List from '../../components/List/index.android'
+import Search from '../../components/Search/index.android'
+
 class PlacesContainer extends React.Component {
 
-  state = { eventsOwner: [] }
+  state = { eventsOwner: [], searchTerm: '' }
 
   /**
    * componentWillMount - description
@@ -34,12 +38,29 @@ class PlacesContainer extends React.Component {
     this.setState({eventsOwner})
   }
 
+  /**
+   * searchUpdated - description
+   *
+   * @param  {type} term description
+   * @return {type}      description
+   */
+  searchUpdated(term) {
+    this.setState({ searchTerm: term })
+  }
+
+  /**
+   * render - description
+   *
+   * @return {type}  description
+   */
   render() {
     const { navigation } = this.props;
-    const { eventsOwner } = this.state
+    const { eventsOwner, searchTerm } = this.state
+    const eventsOwnerSearch = eventsOwner.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
     return (
       <View style={styles.container}>
-        {(eventsOwner && eventsOwner.length > 0) && <List items={eventsOwner} navigation={navigation}/>}
+        <Search callback={this.searchUpdated.bind(this)} />
+        {(eventsOwner && eventsOwner.length > 0) && <List items={eventsOwnerSearch} navigation={navigation}/>}
       </View>
     )
   }

@@ -40,6 +40,7 @@ export const UserOptionsLogin = {
   stylesheet: stylesheet,
   fields: {
     email: {
+      autoFocus: true,
       error: 'Email needed to login'
     },
     password: {

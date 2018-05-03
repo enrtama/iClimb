@@ -29,9 +29,12 @@ class SidebarContainer extends React.Component {
   }
 
   /**
+   * signout - description
    *
+   * @return {type}  description
    */
-  signout = () => () => {
+  signout() {
+    this.navigateToScreen('Login')()
     this.props.signout()
   }
 
@@ -69,7 +72,7 @@ class SidebarContainer extends React.Component {
                 size={24}
                 style={styles.icon}/><Text style={styles.navItemStyle}>Reset Password</Text>
             </Button>
-            <Button transparent block style={styles.navSectionStyle} onPress={this.signout()}>
+            <Button transparent block style={styles.navSectionStyle} onPress={() => this.signout()}>
               <Ionicons
                 name={'ios-close-circle'}
                 size={24}
