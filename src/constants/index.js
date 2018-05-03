@@ -35,10 +35,24 @@ export const AWS_EVENTS = {
 }
 
 export const SPORT_MODALITY = {
-  INDOOR_BOULDERING: "INDOOR_BOULDERING",
-  OUTDOOR_BOULDERING: "OUTDOOR_BOULDERING",
-  SPORT_CLIMBING: "SPORT_CLIMBING", // Relies on permanent anchors fixed to the rock for protection
-  GYM_ROUTES: "GYM_ROUTES",
-  ICE_CLIMBING: "ICE_CLIMBING",
-  TRADITIONAL_CLIMBING: "TRADITIONAL_CLIMBING" // Must place removable protection as they climb
+  INDOOR_BOULDERING: "Indoor Bouldering",
+  OUTDOOR_BOULDERING: "Outdoor Bouldering",
+  SPORT_CLIMBING: "Sport Climbing", // Relies on permanent anchors fixed to the rock for protection
+  GYM_ROUTES: "Gym Routes",
+  ICE_CLIMBING: "Ice Climbing",
+  TRADITIONAL_CLIMBING: "Traditional Climbing" // Must place removable protection as they climb
+}
+
+export const CRUD = {
+  EDIT: "edit",
+  DELETE: "delete"
+}
+
+export const TEXTAREA_LINES = 5
+
+export const KEYS_TO_FILTERS = ['title', 'description']
+
+export const MAP_DEFAULT = {
+  LATITUDE: 52.383477,
+  LONGITUDE: 4.929267
 }

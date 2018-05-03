@@ -144,7 +144,7 @@ const Drawer = DrawerNavigator(
     ResetPassword: { screen: ResetPasswordStack }
   },
   {
-    initialRouteName : 'Login',
+    initialRouteName : 'Home',
     contentComponent: Sidebar,
     drawerPosition: 'right',
     contentOptions: {

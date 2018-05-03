@@ -23,12 +23,12 @@ const GooglePlacesInput = (props) => {
       onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
         Geocoder.from(data.description)
           .then(json => {
-            props.callback(data, json.results[0].geometry.location)
+            props.callback && props.callback(data, json.results[0].geometry.location)
           })
           .catch(error => console.warn(error));
       }}
 
-    getDefaultValue={() => ''}
+    getDefaultValue={() => props.initialValue || ''}
 
     query={{
       // available options: https://developers.google.com/places/web-service/autocomplete
@@ -41,7 +41,8 @@ const GooglePlacesInput = (props) => {
       textInputContainer: {
         backgroundColor: 'white',
         width: '100%',
-        height: 50
+        height: 50,
+        zIndex: 3
       },
       textInput: {
         height: 35,
@@ -74,9 +75,8 @@ const GooglePlacesInput = (props) => {
     }}
 
     filterReverseGeocodingByTypes={['geocode']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-
     debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-    renderLeftButton={()  => <Ionicons name={'ios-search'} size={32} style={styles.icon}/>}
+    renderLeftButton={() => <Ionicons name={'ios-search'} size={32} style={styles.icon}/>}
     />
   )
 }
@@ -84,7 +84,7 @@ const GooglePlacesInput = (props) => {
 const styles = StyleSheet.create({
   icon: {
     color: 'black',
-    width: 45,
+    width: 40,
     paddingLeft: 15,
     paddingTop: 10,
   }

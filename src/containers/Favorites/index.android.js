@@ -2,17 +2,24 @@
 /**
  *
  */
-  
+
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import GridList from '../../components/GridList/index.android'
+import { SPORT_MODALITY } from '../../constants'
 
 export default class FavoritesContainer extends React.Component {
+
+  /**
+   * render - description
+   *
+   * @return {type}  description
+   */
   render() {
-    const titles = ['Gym Bouldering', 'Gym Routes', 'Outdoor Bouldering', 'Ice Climbing', 'Sport Climbing', 'Traditional Climbing']
+    const titles = Object.values(SPORT_MODALITY)
     return (
       <View style={styles.main}>
-        <GridList items={titles} />
+        <GridList items={titles} navigation={this.props.navigation}/>
       </View>
     )
   }

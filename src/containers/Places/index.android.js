@@ -4,26 +4,15 @@
  */
 
 import React from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux'
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import List from '../../components/List/index.android'
 
-import PlacesActions from '../../redux/places'
+import FavoritesActions from '../../redux/favorites'
 
 class PlacesContainer extends React.Component {
 
-  /**
-   * constructor - description
-   *
-   * @param  {type} props description
-   * @return {type}       description
-   */
-  constructor(props) {
-    super(props)
-    this.state = {
-      markers: []
-    }
-  }
+  state = { eventsOwner: [] }
 
   /**
    * componentWillMount - description
@@ -31,7 +20,7 @@ class PlacesContainer extends React.Component {
    * @return {type}  description
    */
   componentWillMount() {
-    this.props.getMarkers()
+    this.props.getEventsOwner(this.props.auth.user.email)
   }
 
   /**
@@ -41,32 +30,16 @@ class PlacesContainer extends React.Component {
    * @return {type}           description
    */
   componentWillReceiveProps(nextProps) {
-    const { markers } = nextProps;
-    this.setState({markers})
+    const { eventsOwner } = nextProps;
+    this.setState({eventsOwner})
   }
 
   render() {
-    const { markers } = this.state
+    const { navigation } = this.props;
+    const { eventsOwner } = this.state
     return (
       <View style={styles.container}>
-        <MapView style={styles.map}
-          provider={PROVIDER_GOOGLE}
-          initialRegion={{
-            latitude: 52.383477,
-            longitude: 4.929267,
-            latitudeDelta: 0.0992,
-            longitudeDelta: 0.0491
-          }}>
-          {markers && markers.length > 0 && this.state.markers.map(marker => (
-            <Marker
-              key={marker.id}
-              coordinate={marker.coordinate}
-              title={marker.title}
-              description={marker.description}
-              image={require('../../../assets/shoe-pin.png')}
-            />
-          ))}
-          </MapView>
+        {(eventsOwner && eventsOwner.length > 0) && <List items={eventsOwner} navigation={navigation}/>}
       </View>
     )
   }
@@ -74,33 +47,20 @@ class PlacesContainer extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  map: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height
-  },
+    flexDirection: 'column',
+    justifyContent: 'flex-start'
+  }
 });
 
 const mapStateToProps = (state) => {
   return {
-    markers: state.places.markers,
+    eventsOwner: state.favorites.eventsOwner,
+    auth: state.auth
   }
 }
 
 const mapStateToDispatch = dispatch => ({
-  getMarkers: () => dispatch(PlacesActions.getMarkers())
+  getEventsOwner: (id) => dispatch(FavoritesActions.getEventsOwner(id))
 })
 
 export default connect(mapStateToProps, mapStateToDispatch)(PlacesContainer)

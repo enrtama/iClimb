@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import moment from 'moment';
 import { ImagePicker } from 'expo'
 import { Content, Container, Button, Thumbnail } from 'native-base'
 import { StyleSheet, View, Text } from 'react-native'
@@ -12,7 +11,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { connect } from 'react-redux'
 import t from 'tcomb-form-native'
 import { uploadImageEvent } from '../../utils/aws'
-import { SPORT_MODALITY } from '../../constants'
 import GooglePlacesSearch from '../../components/GooglePlacesSearch/index.android'
 
 import FavoritesActions from '../../redux/favorites'
@@ -21,7 +19,7 @@ import FavoritesActions from '../../redux/favorites'
 import { EventModel, EventModelOptions } from '../../models/Event'
 const Form = t.form.Form;
 
-class AddEventContainer extends React.Component {
+class EditEventContainer extends React.Component {
 
   /**
    * constructor - description
@@ -31,39 +29,31 @@ class AddEventContainer extends React.Component {
    */
   constructor(props) {
     super(props);
-    this.state = {
-      image: null,
-      event: { modality: SPORT_MODALITY.INDOOR_BOULDERING },
-      location: null,
-      geocode: null,
-      placeId: null
-    }
-    this.addEvent = this.addEvent.bind(this)
+    this.state = { event: props.navigation.state.params.event }
+    this.updateEvent = this.updateEvent.bind(this)
     this.onChange = this.onChange.bind(this)
     this.setLocation = this.setLocation.bind(this)
   }
 
   /**
-   * addEvent - description
+   * updateEvent - description
    *
    * @return {type}  description
    */
-  addEvent() {
+  updateEvent() {
     const { event, location, geocode, placeId, image } = this.state
     const { navigation } = this.props;
-    const newEvent = {
-      title: event.title,
-      description: event.description,
-      date: moment(event.date).format('DD.MM.YYYY'),
-      thumbnail: image,
-      location: location,
-      geocode: {latitude: geocode.lat, longitude: geocode.lng},
-      placeId: placeId,
-      modality: event.modality,
-      userId: this.props.auth.user.email
-    }
-    this.props.addEvent(newEvent)
-    navigation.goBack()
+    // const updatedEvent = {
+    //   title: event.title,
+    //   description: event.description,
+    //   date: event.date.toString(),
+    //   thumbnail: image,
+    //   location: location,
+    //   geocode: {latitude: geocode.lat, longitude: geocode.lng},
+    //   placeId: placeId,
+    //   userId: this.props.auth.user.email
+    // }
+    // this.props.updateEvent(updatedEvent)
   }
 
   /**
@@ -130,12 +120,12 @@ class AddEventContainer extends React.Component {
    * @return {type}  description
    */
   render() {
-    const { image, event } = this.state
+    const { event } = this.state
 
     return (
       <Container style={styles.container}>
         <Content>
-          <GooglePlacesSearch callback={this.setLocation} title="Select an address" currentLocation={false} range="address"/>
+          <GooglePlacesSearch callback={this.setLocation} initialValue={event.location} title="Select an address" currentLocation={false} range="address"/>
           <Form
             ref={c => this._form = c}
             value={event}
@@ -143,10 +133,7 @@ class AddEventContainer extends React.Component {
             options={EventModelOptions}
             onChange={this.onChange} />
             <View style={styles.imageContainer}>
-              {image ? <Thumbnail large square source={{uri: image}} style={styles.thumbnail}/> : <Ionicons
-                name={'ios-image'}
-                size={96}
-                style={{color:'black'}}/>}
+              <Thumbnail large square source={{uri: event.image}} style={styles.thumbnail}/>
               <Button rounded info style={styles.button} onPress={this.pickImage}><Text style={styles.textButton}>Select an image</Text></Button>
             </View>
             <View>
@@ -190,7 +177,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapStateToDispatch = dispatch => ({
-  addEvent: (event) => dispatch(FavoritesActions.addEvent(event)),
+  updateEvent: (event) => dispatch(FavoritesActions.updateEvent(event)),
 })
 
-export default connect(mapStateToProps, mapStateToDispatch)(AddEventContainer)
+export default connect(mapStateToProps, mapStateToDispatch)(EditEventContainer)

@@ -50,7 +50,7 @@ class SidebarContainer extends React.Component {
         {isAuthenticated ?
         <ScrollView>
           <View>
-            <Button transparent block style={styles.navSectionStyle} onPress={this.navigateToScreen('Home')}>
+            <Button transparent block style={styles.navSectionStyle} onPress={this.navigateToScreen('HomeTab')}>
               <Ionicons
                 name={'ios-home'}
                 size={24}

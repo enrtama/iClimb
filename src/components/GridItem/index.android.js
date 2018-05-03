@@ -3,32 +3,38 @@
  */
 
 import React from 'react';
-import { StyleSheet, Text, Image } from 'react-native';
-import { Row } from "react-native-easy-grid";
+import { StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 
 export default class GridItem extends React.Component {
 
+  /**
+   * handleClick - description
+   *
+   * @param  {type} title description
+   * @return {type}       description
+   */
+  handleClick(title) {
+    this.props.navigation.push('FavoritesFilter', { title: title})
+  }
+  /**
+   * render - description
+   *
+   * @return {type}  description
+   */
   render() {
     const { title, icon } = this.props;
     return (
-        <Row style={styles.row}>
+        <TouchableOpacity onPress={() => this.handleClick(title)}>
           <Image
             style={styles.icon}
             source={icon} />
           <Text style={styles.paragraph}>{title}</Text>
-        </Row>
+        </TouchableOpacity>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'column',
-    margin: 10,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent:'center'
-  },
   icon: {
     width: 100,
     height: 100,

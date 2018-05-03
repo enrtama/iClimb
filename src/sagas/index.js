@@ -16,7 +16,7 @@ import { UserTypes } from '../redux/user'
 import { startup } from './startup'
 import { updateLanguage } from './i18n'
 import { getMarkers } from './places'
-import { getEvents, addEvent } from './favorites'
+import { getEvents, addEvent, updateEvent, deleteEvent } from './favorites'
 import { login, signup, resetPassword, signout, saveAvatar } from './user'
 
 /* ------------- Connect Types To Sagas ------------- */
@@ -27,6 +27,8 @@ export default function* root() {
     takeLatest(PlacesTypes.GET_MARKERS, getMarkers),
     takeLatest(FavoritesTypes.GET_EVENTS, getEvents),
     takeLatest(FavoritesTypes.ADD_EVENT, addEvent),
+    takeLatest(FavoritesTypes.UPDATE_EVENT, updateEvent),
+    takeLatest(FavoritesTypes.DELETE_EVENT, deleteEvent),
     takeLatest(UserTypes.LOGIN, login),
     takeLatest(UserTypes.SIGNUP, signup),
     takeLatest(UserTypes.RESET_PASSWORD, resetPassword),

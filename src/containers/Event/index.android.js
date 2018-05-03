@@ -7,12 +7,15 @@ import React from 'react';
 import { Content, Container, Segment, Button, Fab, Toast } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { StyleSheet, View, Text } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { CRUD } from '../../constants'
+import { connect } from 'react-redux'
+import FavoritesActions from '../../redux/favorites'
 
 import CardShowcase from '../../components/CardShowcase/index.android'
 import Map from '../../components/Map/index.android'
 import Gallery from '../../components/Gallery/index.android'
-import FAB from '../../components/FAB/index.android'
+import FABShare from '../../components/FABShare/index.android'
+import FABCrud from '../../components/FABCrud/index.android'
 
 const VIEWS = {
   INFO: "info",
@@ -20,7 +23,7 @@ const VIEWS = {
   GALLERY: "gallery"
 }
 
-export default class EventContainer extends React.Component {
+class EventContainer extends React.Component {
 
   state = { currentView: "info", showToast: false }
 
@@ -44,6 +47,39 @@ export default class EventContainer extends React.Component {
         break;
       default:
         return <CardShowcase item={eventItem} />
+    }
+  }
+
+  /**
+   * showToast - description
+   *
+   * @param  {type} message description
+   * @return {type}         description
+   */
+  showToast(message) {
+    Toast.show({text: message, position: 'bottom', buttonText: 'Okay'})
+  }
+
+  /**
+   * action - description
+   *
+   * @param  {type} action description
+   * @return {type}        description
+   */
+  action(action) {
+    const { navigation } = this.props;
+    // this.showToast(action)
+    switch (action) {
+      case CRUD.EDIT:
+        const eventItem = navigation.state.params.event
+        navigation.push('EditEvent', { id: eventItem.placeId, title: eventItem.title, event: eventItem })
+        break;
+      case CRUD.DELETE:
+        this.props.deleteEvent(navigation.state.params.event.key)
+        navigation.goBack()
+        break;
+      default:
+        break;
     }
   }
 
@@ -76,11 +112,8 @@ export default class EventContainer extends React.Component {
             <Text>{VIEWS.GALLERY}</Text>
           </Button>
         </Segment>
-        <FAB onClick={(message) => Toast.show({
-              text: message,
-              position: 'bottom',
-              buttonText: 'Okay'
-            })} />
+        <FABShare onClick={(message) => this.showToast(message)} position="bottomRight"/>
+        <FABCrud onClick={(action) => this.action(action)} position="bottomLeft"/>
         <Content>
           <Grid><Row><Col>{this.renderContent(currentView)}</Col></Row></Grid>
         </Content>
@@ -94,3 +127,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   }
 });
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  }
+}
+
+const mapStateToDispatch = dispatch => ({
+  deleteEvent: (eventKey) => dispatch(FavoritesActions.deleteEvent(eventKey)),
+})
+
+export default connect(mapStateToProps, mapStateToDispatch)(EventContainer)

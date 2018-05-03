@@ -12,9 +12,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeContainer from '../containers/Home/index.android'
 import ChatContainer from '../containers/Chat/index.android'
 import FavoritesContainer from '../containers/Favorites/index.android'
+import FavoritesFilterContainer from '../containers/FavoritesFilter/index.android'
 import PlacesContainer from '../containers/Places/index.android'
 import EventContainer from '../containers/Event/index.android'
 import AddEventContainer from '../containers/AddEvent/index.android'
+import EditEventContainer from '../containers/EditEvent/index.android'
 
 const MyHomeContainer = ({ navigation }) => (
   <HomeContainer banner={'Home'} navigation={navigation} />
@@ -28,6 +30,10 @@ const MyFavoritesContainer = ({ navigation }) => (
   <FavoritesContainer banner={'Favorites'} navigation={navigation} />
 )
 
+const MyFavoritesFilterContainer = ({ navigation }) => (
+  <FavoritesFilterContainer banner={'FavoritesFilter'} navigation={navigation} />
+)
+
 const MyPlacesContainer = ({ navigation }) => (
   <PlacesContainer banner={'Places'} navigation={navigation} />
 )
@@ -38,6 +44,10 @@ const MyEventContainer = ({ navigation }) => (
 
 const MyAddEventContainer = ({ navigation }) => (
   <AddEventContainer banner={'Add Event'} navigation={navigation} />
+)
+
+const MyEditEventContainer = ({ navigation }) => (
+  <EditEventContainer banner={'Edit Event'} navigation={navigation} />
 )
 
 const MainStack = StackNavigator({
@@ -60,6 +70,13 @@ const MainStack = StackNavigator({
     path: '/event/new',
     navigationOptions: ({navigation}) => ({
       title: 'Add event'
+    })
+  },
+  EditEvent: {
+    screen: MyEditEventContainer,
+    path: '/event/edit/:id',
+    navigationOptions: ({navigation}) => ({
+      title: `${navigation.state.params.title}`
     })
   }
 }, {
@@ -100,6 +117,13 @@ const FavoritesStack = StackNavigator({
     navigationOptions: {
       title: 'Favorites'
     }
+  },
+  FavoritesFilter: {
+    screen: MyFavoritesFilterContainer,
+    path: '/favoritesfilter',
+    navigationOptions: ({navigation}) => ({
+      title: `${navigation.state.params.title}`
+    })
   }
 }, {
   headerMode: 'float',

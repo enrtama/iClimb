@@ -25,7 +25,7 @@ class ResetPasswordContainer extends React.Component {
    */
   constructor(props) {
     super(props);
-    this.state = { error: '',loading: false }
+    this.state = { error: '', loading: false }
     this.handleResetPassword = this.handleResetPassword.bind(this)
   }
 
@@ -47,7 +47,7 @@ class ResetPasswordContainer extends React.Component {
     if (this.state.loading) {
         return <Spinner />;
     }
-    return <Button onPress={this.handleResetPassword} title="Reset Password" />;
+    return <Button rounded block onPress={this.handleResetPassword} title="Reset Password" />;
   }
 
   render() {

@@ -101,7 +101,7 @@ class EditProfileContainer extends React.Component {
     const { image, user } = this.state
     const { auth } = this.props;
 
-    const loadImage = image ? image : (user && user.avatar)
+    const profileImage = image ? image : user.avatar
 
     return (
       <Container style={styles.container}>
@@ -113,7 +113,10 @@ class EditProfileContainer extends React.Component {
             value={user}
             onChange={this.onChange} />
             <View style={styles.avatarContainer}>
-              <Thumbnail large source={{uri: loadImage}} />
+              {profileImage ? <Thumbnail large source={{uri: profileImage}} /> : <Ionicons
+                name={'ios-contact-outline'}
+                size={96}
+                style={{color:'black'}}/>}
               <Button rounded info style={styles.button} onPress={this._pickImage}><Text style={styles.textButton}>Pick an avatar</Text></Button>
             </View>
             <View>
