@@ -4,9 +4,10 @@
  */
 
 import React from 'react'
-import moment from 'moment';
+import moment from 'moment'
+import DatePicker from 'react-native-datepicker'
 import { ImagePicker } from 'expo'
-import { Content, Container, Button, Thumbnail } from 'native-base'
+import { Content, Container, Button, Thumbnail, Spinner } from 'native-base'
 import { StyleSheet, View, Text } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { connect } from 'react-redux'
@@ -32,11 +33,13 @@ class AddEventContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      image: null,
       event: { modality: SPORT_MODALITY.INDOOR_BOULDERING },
+      image: null,
+      imageLoading: false,
       location: null,
       geocode: null,
-      placeId: null
+      placeId: null,
+      date: null
     }
     this.addEvent = this.addEvent.bind(this)
     this.onChange = this.onChange.bind(this)
@@ -49,18 +52,18 @@ class AddEventContainer extends React.Component {
    * @return {type}  description
    */
   addEvent() {
-    const { event, location, geocode, placeId, image } = this.state
+    const { event, location, geocode, placeId, image, date } = this.state
     const { navigation } = this.props;
     const newEvent = {
       title: event.title,
       description: event.description,
-      date: moment(event.date).format('DD.MM.YYYY'),
+      date: date,
       thumbnail: image,
       location: location,
-      geocode: {latitude: geocode.lat, longitude: geocode.lng},
+      geocode: geocode ? {latitude: geocode.lat, longitude: geocode.lng} : {},
       placeId: placeId,
       modality: event.modality,
-      userId: this.props.auth.user.email
+      userId: this.props.auth.user ? this.props.auth.user.email : ''
     }
     this.props.addEvent(newEvent)
     navigation.goBack()
@@ -115,11 +118,12 @@ class AddEventContainer extends React.Component {
         name: randomString + '.' + extension,
         type: result.type + '/' + extension
       }
+      this.setState({ imageLoading: true });
       uploadImageEvent(file).then(response => {
         if (response.status !== 201)
           throw new Error("Failed to upload image to S3");
         const eventImage = response.body.postResponse.location
-        this.setState({ image: eventImage });
+        this.setState({ image: eventImage, imageLoading: false });
       }).catch(error => alert(error))
     }
   }
@@ -130,8 +134,7 @@ class AddEventContainer extends React.Component {
    * @return {type}  description
    */
   render() {
-    const { image, event } = this.state
-
+    const { image, imageLoading, event, date } = this.state
     return (
       <Container style={styles.container}>
         <Content>
@@ -142,12 +145,35 @@ class AddEventContainer extends React.Component {
             type={EventModel}
             options={EventModelOptions}
             onChange={this.onChange} />
+            <DatePicker
+              style={styles.datepicker}
+              date={date}
+              mode="datetime"
+              placeholder="Select date and time"
+              format="DD.MM.YYYY h:mm:ss"
+              minDate={moment().format('DD.MM.YYYY')}
+              maxDate="31.12.2030"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              customStyles={{
+                dateIcon: {
+                  position: 'absolute',
+                  left: 0,
+                  top: 4,
+                  marginLeft: 0
+                },
+                dateInput: {
+                  marginLeft: 36
+                }
+              }}
+              onDateChange={(date) => {this.setState({date: date})}}
+            />
             <View style={styles.imageContainer}>
-              {image ? <Thumbnail large square source={{uri: image}} style={styles.thumbnail}/> : <Ionicons
+              {image ? <Thumbnail large square source={{uri: image}} style={styles.thumbnail}/> : !imageLoading && <Ionicons
                 name={'ios-image'}
                 size={96}
                 style={{color:'black'}}/>}
-              <Button rounded info style={styles.button} onPress={this.pickImage}><Text style={styles.textButton}>Select an image</Text></Button>
+              {imageLoading ? <Spinner /> : <Button transparent block info style={styles.button} onPress={this.pickImage}><Text>Select an image</Text></Button>}
             </View>
             <View>
               {this.renderSaveButton()}
@@ -173,13 +199,16 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   imageContainer: {
-    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginTop: 20
   },
   thumbnail: {
     width: 200,
     height: 150
+  },
+  datepicker: {
+    width: '100%'
   }
 })
 

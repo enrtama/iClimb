@@ -24,7 +24,8 @@ class PlacesContainer extends React.Component {
    * @return {type}  description
    */
   componentWillMount() {
-    this.props.getEventsOwner(this.props.auth.user.email)
+    const { auth, getEventsOwner } = this.props
+    auth.user && getEventsOwner(auth.user.email)
   }
 
   /**

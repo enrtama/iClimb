@@ -32,6 +32,7 @@
     "react": "16.2.0",
     "react-native": "0.52.0",
     "react-native-aws3": "^0.0.8",
+    "react-native-datepicker": "^1.7.2",
     "react-native-drawer": "^2.5.0",
     "react-native-easy-grid": "^0.1.17",
     "react-native-geocoding": "^0.3.0",

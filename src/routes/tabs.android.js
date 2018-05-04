@@ -57,27 +57,6 @@ const MainStack = StackNavigator({
     navigationOptions: ({navigation}) => ({
       title: 'Welcome',
     })
-  },
-  EventItem: {
-    screen: MyEventContainer,
-    path: '/event/:id',
-    navigationOptions: ({navigation}) => ({
-      title: `${navigation.state.params.title}`
-    })
-  },
-  AddEvent: {
-    screen: MyAddEventContainer,
-    path: '/event/new',
-    navigationOptions: ({navigation}) => ({
-      title: 'Add event'
-    })
-  },
-  EditEvent: {
-    screen: MyEditEventContainer,
-    path: '/event/edit/:id',
-    navigationOptions: ({navigation}) => ({
-      title: `${navigation.state.params.title}`
-    })
   }
 }, {
   headerMode: 'float',
@@ -124,6 +103,27 @@ const FavoritesStack = StackNavigator({
     navigationOptions: ({navigation}) => ({
       title: `${navigation.state.params.title}`
     })
+  },
+  EventItem: {
+    screen: MyEventContainer,
+    path: '/event/:id',
+    navigationOptions: ({navigation}) => ({
+      title: `${navigation.state.params.title}`
+    })
+  },
+  AddEvent: {
+    screen: MyAddEventContainer,
+    path: '/event/new',
+    navigationOptions: ({navigation}) => ({
+      title: 'Add event'
+    })
+  },
+  EditEvent: {
+    screen: MyEditEventContainer,
+    path: '/event/edit/:id',
+    navigationOptions: ({navigation}) => ({
+      title: `${navigation.state.params.title}`
+    })
   }
 }, {
   headerMode: 'float',
@@ -143,6 +143,27 @@ const PlacesStack = StackNavigator({
     navigationOptions: {
       title: 'Places'
     }
+  },
+  EventItem: {
+    screen: MyEventContainer,
+    path: '/event/:id',
+    navigationOptions: ({navigation}) => ({
+      title: `${navigation.state.params.title}`
+    })
+  },
+  AddEvent: {
+    screen: MyAddEventContainer,
+    path: '/event/new',
+    navigationOptions: ({navigation}) => ({
+      title: 'Add event'
+    })
+  },
+  EditEvent: {
+    screen: MyEditEventContainer,
+    path: '/event/edit/:id',
+    navigationOptions: ({navigation}) => ({
+      title: `${navigation.state.params.title}`
+    })
   }
 }, {
   headerMode: 'float',

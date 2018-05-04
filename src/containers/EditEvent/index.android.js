@@ -4,8 +4,10 @@
  */
 
 import React from 'react'
+import moment from 'moment'
+import DatePicker from 'react-native-datepicker'
 import { ImagePicker } from 'expo'
-import { Content, Container, Button, Thumbnail } from 'native-base'
+import { Content, Container, Button, Thumbnail, Spinner } from 'native-base'
 import { StyleSheet, View, Text } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { connect } from 'react-redux'
@@ -29,7 +31,14 @@ class EditEventContainer extends React.Component {
    */
   constructor(props) {
     super(props);
-    this.state = { event: props.navigation.state.params.event }
+    this.state = {
+      event: props.navigation.state.params.event,
+      image: null,
+      location: null,
+      geocode: null,
+      placeId: null,
+      date: null
+    }
     this.updateEvent = this.updateEvent.bind(this)
     this.onChange = this.onChange.bind(this)
     this.setLocation = this.setLocation.bind(this)
@@ -41,18 +50,20 @@ class EditEventContainer extends React.Component {
    * @return {type}  description
    */
   updateEvent() {
-    const { event, location, geocode, placeId, image } = this.state
+    const { event, location, geocode, placeId, image, date } = this.state
     const { navigation } = this.props;
+    console.log(this.state);
     // const updatedEvent = {
     //   title: event.title,
     //   description: event.description,
-    //   date: event.date.toString(),
-    //   thumbnail: image,
-    //   location: location,
-    //   geocode: {latitude: geocode.lat, longitude: geocode.lng},
-    //   placeId: placeId,
-    //   userId: this.props.auth.user.email
+    //   date: date || event.date
+    //   thumbnail: image || event.image,
+    //   location: location || event.location,
+    //   geocode: geocode ? {latitude: geocode.lat, longitude: geocode.lng} : event.geocode,
+    //   placeId: placeId || event.placeId,
+    //   userId: this.props.auth.user ? this.props.auth.user.email : ''
     // }
+    // console.log(updatedEvent);
     // this.props.updateEvent(updatedEvent)
   }
 
@@ -105,11 +116,12 @@ class EditEventContainer extends React.Component {
         name: randomString + '.' + extension,
         type: result.type + '/' + extension
       }
+      this.setState({ imageLoading: true });
       uploadImageEvent(file).then(response => {
         if (response.status !== 201)
           throw new Error("Failed to upload image to S3");
         const eventImage = response.body.postResponse.location
-        this.setState({ image: eventImage });
+        this.setState({ image: eventImage, imageLoading: false });
       }).catch(error => alert(error))
     }
   }
@@ -120,8 +132,7 @@ class EditEventContainer extends React.Component {
    * @return {type}  description
    */
   render() {
-    const { event } = this.state
-
+    const { image, imageLoading, event, date } = this.state
     return (
       <Container style={styles.container}>
         <Content>
@@ -132,9 +143,32 @@ class EditEventContainer extends React.Component {
             type={EventModel}
             options={EventModelOptions}
             onChange={this.onChange} />
+            <DatePicker
+              style={styles.datepicker}
+              date={date || event.date}
+              mode="datetime"
+              placeholder="Select date and time"
+              format="DD.MM.YYYY h:mm:ss"
+              minDate={moment().format('DD.MM.YYYY')}
+              maxDate="31.12.2030"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              customStyles={{
+                dateIcon: {
+                  position: 'absolute',
+                  left: 0,
+                  top: 4,
+                  marginLeft: 0
+                },
+                dateInput: {
+                  marginLeft: 36
+                }
+              }}
+              onDateChange={(date) => {this.setState({date: date})}}
+            />
             <View style={styles.imageContainer}>
-              <Thumbnail large square source={{uri: event.image}} style={styles.thumbnail}/>
-              <Button rounded info style={styles.button} onPress={this.pickImage}><Text style={styles.textButton}>Select an image</Text></Button>
+              <Thumbnail large square source={{uri: image || event.image}} style={styles.thumbnail}/>
+              {imageLoading ? <Spinner /> : <Button rounded info style={styles.button} onPress={this.pickImage}><Text style={styles.textButton}>Select an image</Text></Button>}
             </View>
             <View>
               {this.renderSaveButton()}
@@ -162,11 +196,15 @@ const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginTop: 20
   },
   thumbnail: {
     width: 200,
     height: 150
+  },
+  datepicker: {
+    width: '100%'
   }
 })
 

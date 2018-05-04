@@ -36,7 +36,6 @@ const Modality = t.enums({
 export const EventModel = t.struct({
   title: t.String,
   description: t.String,
-  date: t.maybe(t.Date),
   modality: Modality
 })
 
@@ -51,13 +50,6 @@ export const EventModelOptions = {
       multiline: true,
       numberOfLines: TEXTAREA_LINES,
       error: 'Please add some description'
-    },
-    date: {
-      mode: 'date',
-      config: {
-        format: (date) => moment(date).format('DD.MM.YYYY'),
-      },
-      error: 'Please add a date'
     }
   }
 }
